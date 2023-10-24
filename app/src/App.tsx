@@ -1,14 +1,12 @@
-import { useState } from 'react'
+import { BrowserRouter } from "react-router-dom";
+import { Login } from "./shared/components";
+import { AppRoutes } from "./routes";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        Uni4Life
-      </div>
-    </>
+      <Login>
+          <AppRoutes />
+      </Login>
   )
 }
 
