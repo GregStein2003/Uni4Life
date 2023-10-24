@@ -7,7 +7,9 @@ You should at least Node.js 16.0.0 (Recommended)
     ```
     cd app
     ```
-    npm i
+    ```
+    npm install
+    ```
     ```
     npm run dev
     ```
