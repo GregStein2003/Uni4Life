@@ -14,15 +14,15 @@ export const LayoutBaseLogin: React.FC<ILayoutBaseLoginProps> = ({ children }) =
         <>
             <Box height={theme.spacing(12)} color="white" display="flex" flexDirection="column" gap={1} bgcolor={theme.palette.background.default}>
                 <Box display="flex" alignItems="center" justifyContent="center" paddingY={2}>
-                    <Typography variant="h2">Uni4Life</Typography>
+                    <Typography variant="h1">Uni4Life</Typography>
                 </Box>
             </Box>
             <Box flex={1}>
                 {children}
             </Box>
             <footer style={{height: theme.spacing(12), backgroundColor: theme.palette.background.default}}>
-                <Toolbar>
-                    <Typography variant="body2" color="inherit">
+                <Toolbar sx={{ display: "flex", justifyContent: "center", height: "100%" }}>
+                    <Typography variant="body2" color="white" textAlign="center">
                     &copy; {new Date().getFullYear()} Your Website Name
                     </Typography>
                 </Toolbar>
