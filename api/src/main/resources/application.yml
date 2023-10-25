@@ -1,0 +1,45 @@
+logging:
+  level:
+    br.edu.unisinos.uni4life: ${LOG_LEVEL_API:DEBUG}
+    org.hibernate.SQL: ${LOG_LEVEL_HIBERNATE:DEBUG}
+    org.hibernate.type.descriptor.sql.BasicBinder: ${LOG_LEVEL_SQL:DEBUG}
+    org.springframework.boot: ${LOG_LEVEL_SPRING:INFO}
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n"
+  charset:
+    console: UTF-8
+
+
+server:
+  servlet:
+    context-path: /uni4life
+  port: ${SERVER_PORT:8080}
+
+
+spring:
+  application:
+    name: uni4life
+  messages:
+    basename: messages
+  jackson:
+    deserialization:
+      READ_UNKNOWN_ENUM_VALUES_AS_NULL: true
+    generator:
+      IGNORE_UNKNOWN: true
+    time-zone: America/Sao_Paulo
+  datasource:
+    continue-on-error: true
+    username: ${BD_USERNAME}
+    password: ${BD_PASSWORD}
+    url: jdbc:mysql://${BD_HOST:localhost}:3306/uni4life?serverTimezone=UTC
+
+springfox:
+  documentation:
+    info:
+      title: Uni4life
+      description: Documentação dos serviços da api do Uni4life
+      version: 1.0.0
+    base-package: br.edu.unisinos.uni4life.controller
+    apis:
+      - name: UsuarioApi
+        description: Serviços relacionados aos usuários.
