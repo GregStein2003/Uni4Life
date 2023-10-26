@@ -3,11 +3,11 @@ import { Box } from "@mui/system";
 import Brand from "../../images/brand-unisinos.png"
 
 
-interface ILayoutBaseLoginProps {
+interface ILayoutBaseWelcomeProps {
     children: React.ReactNode;
 }
 
-export const LayoutBaseLogin: React.FC<ILayoutBaseLoginProps> = ({ children }) => {
+export const LayoutBaseWelcome: React.FC<ILayoutBaseWelcomeProps> = ({ children }) => {
     const theme = useTheme();
 
     return (

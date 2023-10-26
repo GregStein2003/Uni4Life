@@ -1,13 +1,14 @@
-import { Login } from "./shared/components";
+import "./shared/forms/TraducoesYup";
+import { Welcome } from "./shared/components";
 import { AppThemeProvider } from "./shared/contexts/"
 import { AppRoutes } from "./routes";
 
 function App() {
   return (
       <AppThemeProvider>
-        <Login>
+        <Welcome>
             <AppRoutes />
-        </Login>
+        </Welcome>
       </AppThemeProvider>
   )
 }

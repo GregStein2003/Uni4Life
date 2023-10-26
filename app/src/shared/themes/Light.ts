@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import { yellow, cyan, blue } from "@mui/material/colors";
+import { cyan, blue } from "@mui/material/colors";
 
 export const LightTheme = createTheme({
     palette: {
@@ -16,7 +16,7 @@ export const LightTheme = createTheme({
             contrastText: "#FFFFFF", 
         },
         background: {
-            default: "#214099",
+            default: "#262d63",
             paper: "white",
         }
     },
@@ -42,7 +42,10 @@ export const LightTheme = createTheme({
             fontWeight: 400
         },
         button: {
-            fontSize: "1.6rem"
+            fontSize: "1.6rem",
+            borderRadius: 2,
+            bgcolor:"#262d63",
+            '&:hover': { backgroundColor: "#214099" }
         },
         body2: { // <a></a>
             fontSize: "1.4rem",
@@ -53,5 +56,15 @@ export const LightTheme = createTheme({
             color: "#000000",
             cursor: "pointer"
         }
-    }
+    },
+    components: {
+          MuiFormHelperText: {
+            styleOverrides: {
+              root: {
+                    fontSize: "1.5rem",
+                    marginLeft: 0
+                }
+              }
+            }
+      }
 });

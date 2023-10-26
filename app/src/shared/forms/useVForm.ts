@@ -4,12 +4,12 @@ import { useCallback, useRef } from "react";
 export const useVForm = () => {
     const formRef = useRef<FormHandles>(null);
 
-    const handleSave = useCallback(() => {
+    const handleSubmit = useCallback(() => {
         formRef.current?.submitForm();
     }, [])
 
     return { 
         formRef,
-        save: handleSave,
+        submit: handleSubmit,
     };
 }
