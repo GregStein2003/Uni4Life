@@ -34,7 +34,7 @@ spring:
   datasource:
     continue-on-error: true
     driverClassName: org.h2.Driver
-    username: ${BD_USERNAME}
+    username: ${BD_USERNAME:sa}
     password: ${BD_PASSWORD}
     url: jdbc:h2:mem:uni4life
   jpa:
