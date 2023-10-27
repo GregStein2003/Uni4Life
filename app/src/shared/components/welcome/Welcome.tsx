@@ -3,9 +3,11 @@ import { useState } from "react";
 import { Box } from "@mui/system";
 import { LayoutBaseWelcome } from "../../layouts/";
 import bgLogin from "../../../images/bg-login.jpg"
+import Loader from "../../../images/loader.gif"
+import { AutoComplete } from "./AutoComplete";
 import { VTextField, VForm, useVForm, IVFormErrors } from "../../forms/";
 import { WelcomeService } from "../../services/api/welcome/WelcomeService";
-import { Button, Card, CardActions, CardContent, FormControl, FormControlLabel, FormLabel, Grid, Icon, Paper, Radio, RadioGroup, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, Grid, Icon, Paper, Typography } from "@mui/material";
 
 
 interface IWelcomeProps {
@@ -14,40 +16,42 @@ interface IWelcomeProps {
 
 interface IFormLoginData {
     email: string;
-    password: string;
+    senha: string;
 }
 
 const formLoginValidationSchema: yup.Schema<IFormLoginData> = yup.object().shape({
     email: yup.string().email().required(),
-    password: yup.string().required().min(5),
+    senha: yup.string().required(),
 });
 
 type typeAccount = "private" | "public";
 
 interface IFormRegisterData {
-    type: string;
-    nameUser: string;
+    tipoConta: typeAccount;
+    nome: string;
     email: string;
-    recordRegister: number;
-    birthDate?: string;
-    telephone?: string
-    password: string;
-    confirmPassword: string;
+    registroAcademico: number;
+    dataNascimento: string;
+    telefone: string;
+    senha: string;
+    confirmarSenha: string;
 }
 
 const formRegisterValidationSchema: yup.Schema<IFormRegisterData> = yup.object().shape({
-    nameUser: yup.string().required(),
+    nome: yup.string().required(),
     email: yup.string().email().required(),
-    recordRegister: yup.number().required(),
-    type: yup.string().required(),
-    password: yup.string().required().min(5),
-    confirmPassword: yup.string().required().min(5)
+    dataNascimento: yup.date().required().typeError('Insira uma data válida'),
+    telefone: yup.string().required(),
+    registroAcademico: yup.string().required(),
+    tipoConta: yup.string().required(),
+    senha: yup.string().required().min(8),
+    confirmarSenha: yup.string().oneOf([yup.ref('senha'), undefined], "Senhas precisam ser iguais").required(),
 });
 
 export const Welcome: React.FC<IWelcomeProps> = () => {
     const { formRef, submit } = useVForm();
     const [isLoading, setIsLoading] = useState(false);
-    const [isRegister, setIsRegister] = useState(true);
+    const [isRegister, setIsRegister] = useState(false);
     
 
     const handleLogin = (dados: IFormLoginData) => {
@@ -72,12 +76,11 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
         });
     }
 
-    const handleRegister = (dados: IFormRegisterData) => {
-        console.log(dados);
+    const handleRegister = (dados: any) => {
         formRegisterValidationSchema.validate(dados, { abortEarly: false }).then(dadosValidados => {
             setIsLoading(true);
 
-            WelcomeService.verify(dadosValidados).then(result => {
+            WelcomeService.create(dadosValidados).then(result => {
                 setIsLoading(false);
                 if(result instanceof Error){
                     alert(result.message);
@@ -97,7 +100,7 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
 
     return (
         <LayoutBaseWelcome>
-            <Box display="flex" justifyContent="center" alignItems="center" height="100%" width="100%" position="relative" flex={1}>
+            <Box display="flex" justifyContent="center" alignItems="center" height="100%" width="100%" position="relative" paddingY={2} flex={1}>
                     <Box 
                         sx={{ 
                             backgroundImage: `url(${bgLogin})`,
@@ -126,7 +129,7 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
 
                                         <VTextField
                                             label="Senha: " 
-                                            name="password"
+                                            name="senha"
                                             required 
                                             fullWidth 
                                             type="password"
@@ -148,9 +151,8 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
                                         Entrar
                                         </Button>
                                     </Box>
-                                    <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={2}>
+                                    <Box display="flex" justifyContent="center" alignItems="center" marginTop={2}>
                                         <Typography variant='body2' onClick={() => setIsRegister(true)}>Cadastre-se</Typography>
-                                        <Typography variant='body2' onClick={() => {}}>Esqueceu sua senha?</Typography>
                                     </Box>
                                 </CardActions>
                             </VForm>
@@ -164,7 +166,7 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
                                         <VTextField 
                                             label="Nome do usuário: "
                                             required
-                                            name="nameUser"
+                                            name="nome"
                                             fullWidth
                                             disabled={isLoading} 
                                         />
@@ -179,7 +181,7 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
 
                                         <VTextField
                                             label="Registro Acadêmico: " 
-                                            name="recordAcademic"
+                                            name="registroAcademico"
                                             required 
                                             fullWidth 
                                             disabled={isLoading} 
@@ -189,7 +191,7 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
                                                 <Grid item xs={12} sm={6}>
                                                     <VTextField
                                                         label="Data de Nascimento: " 
-                                                        name="birthDate"
+                                                        name="dataNascimento"
                                                         fullWidth 
                                                         disabled={isLoading} 
                                                     />
@@ -197,27 +199,21 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
                                                 <Grid item xs={12} sm={6}>
                                                     <VTextField
                                                         label="Telefone: " 
-                                                        name="telephone"
+                                                        name="telefone"
                                                         fullWidth 
                                                         disabled={isLoading} 
                                                     />
                                                 </Grid>
 
-                                                <Grid item xl={12}>
-                                                    <FormControl>
-                                                        <FormLabel>Sua conta será?</FormLabel>
-                                                        <RadioGroup sx={{ flexDirection: "row" }}>
-                                                            <FormControlLabel value="private" control={<Radio />} label="Privada" />
-                                                            <FormControlLabel value="public" control={<Radio />} label="Pública" />
-                                                        </RadioGroup>
-                                                    </FormControl>
+                                                <Grid item xs={12}>
+                                                    <AutoComplete />
                                                 </Grid>
 
                                                 <Grid item xs={12} sm={6}>
                                                     <VTextField
                                                         label="Senha: "
                                                         required 
-                                                        name="password"
+                                                        name="senha"
                                                         fullWidth 
                                                         type='password'
                                                         disabled={isLoading} 
@@ -228,7 +224,7 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
                                                     <VTextField
                                                         label="Confirme sua senha: "
                                                         required 
-                                                        name="confirmPassword"
+                                                        name="confirmarSenha"
                                                         fullWidth 
                                                         type='password'
                                                         disabled={isLoading} 
@@ -262,6 +258,12 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
 
                     </Card>
             </Box>
+
+            {isLoading && (
+                <Box sx={{ width: "100vw", height: "100vh", bgcolor: "white", position: "fixed", opacity: ".7", zIndex: 1000, top: 0, display: "grid", placeItems: "center" }}>
+                    <img src={Loader} alt="Loader" />
+                </Box>
+            )}
         </LayoutBaseWelcome>
     )
 }
