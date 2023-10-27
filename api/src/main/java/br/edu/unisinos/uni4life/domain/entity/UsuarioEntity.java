@@ -50,9 +50,6 @@ public class UsuarioEntity implements Serializable {
     @Column(name = "TELEFONE", nullable = false)
     private String telefone;
 
-    @Column(name = "CEP", nullable = false)
-    private String cep;
-
     @Column(name = "DATA_NASCIMENTO", nullable = false)
     private LocalDate dataNascimento;
 

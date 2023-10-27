@@ -24,7 +24,6 @@ public class UsuarioEntityMapper implements Function<CadastraUsuarioRequest, Usu
         entity.setSenha(econdeString(request.getSenha()));
         entity.setRegistroAcademico(request.getRegistroAcademico());
         entity.setTelefone(request.getTelefone());
-        entity.setCep(request.getCep());
         entity.setDataNascimento(request.getDataNascimento());
         entity.setTipo(request.getTipoConta());
         entity.setSegmento(ACADEMICO);
