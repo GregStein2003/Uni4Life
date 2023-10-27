@@ -34,9 +34,6 @@ public final class UsuarioResponse implements Serializable {
     @ApiModelProperty(value = "Telefone do usuário cadastrado", example = "(51)99999-9999")
     private final String telefone;
 
-    @ApiModelProperty(value = "CEP do usuário cadastrado", example = "93613-240")
-    private final String cep;
-
     @ApiModelProperty(value = "Data nascimento do usuário cadastrado", example = "yyyy-MM-dd")
     private final LocalDate dataNascimento;
 
@@ -51,7 +48,6 @@ public final class UsuarioResponse implements Serializable {
             .append("email", email)
             .append("registroAcademico", registroAcademico)
             .append("telefone", telefone)
-            .append("cep", cep)
             .append("dataNascimento", dataNascimento)
             .append("tipoConta", tipoConta)
             .toString();

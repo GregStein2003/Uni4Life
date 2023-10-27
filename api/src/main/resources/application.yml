@@ -31,11 +31,14 @@ spring:
     console:
       enabled: true
       path: /banco
+      settings:
+        trace: false
+        web-allow-others: true
   datasource:
     continue-on-error: true
     driverClassName: org.h2.Driver
-    username: ${BD_USERNAME:sa}
-    password: ${BD_PASSWORD}
+    username: ${BD_USERNAME:root}
+    password: ${BD_PASSWORD:root}
     url: jdbc:h2:mem:uni4life
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
