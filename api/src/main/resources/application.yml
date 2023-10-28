@@ -9,6 +9,13 @@ logging:
   charset:
     console: UTF-8
 
+security:
+  accessTokenValidititySeconds: ${TOKEN_VALIDATION_TIEMOUT:3600} # 1 hora
+  refreshTokenValiditySeconds: ${TOKEN_VALIDATION_TIEMOUT:18000} # 5 horas
+  oauth2:
+    client:
+      client-id: ${SECURITY_CLIENT:uni4life-client}
+      client-secret: ${SECURITY_SECRET:uni4life-secret}
 
 server:
   servlet:

@@ -1,7 +1,10 @@
 package br.edu.unisinos.uni4life.dto.response;
 
 
+import static br.edu.unisinos.uni4life.domain.enumeration.ErrorType.FORBIDDEN;
 import static br.edu.unisinos.uni4life.domain.enumeration.ErrorType.INTERNAL_ERROR;
+import static br.edu.unisinos.uni4life.domain.enumeration.ErrorType.NOT_AUTHORIZED;
+import static br.edu.unisinos.uni4life.domain.enumeration.ErrorType.NOT_FOUND;
 import static br.edu.unisinos.uni4life.domain.enumeration.ErrorType.VALIDATION;
 import static java.lang.String.format;
 import static java.util.Collections.emptyMap;
@@ -14,7 +17,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -96,6 +104,30 @@ public final class ErrorResponse implements Serializable {
             .build();
     }
 
+    public static ErrorResponse build(final UsernameNotFoundException ex) {
+        return ErrorResponse.builder()
+            .errorType(NOT_FOUND)
+            .message("Usuário não encontrado.")
+            .details(emptyMap())
+            .build();
+    }
+
+    public static ErrorResponse build(final InsufficientAuthenticationException ex) {
+        return ErrorResponse.builder()
+            .errorType(NOT_AUTHORIZED)
+            .message("Usuário não autenticado.")
+            .details(emptyMap())
+            .build();
+    }
+
+    public static ErrorResponse build(final AccessDeniedException ex) {
+        return ErrorResponse.builder()
+            .errorType(FORBIDDEN)
+            .message("Usuário não autorizado.")
+            .details(emptyMap())
+            .build();
+    }
+
     public static ErrorResponse build(final HttpMessageNotReadableException ex) {
         return ErrorResponse.builder()
             .errorType(VALIDATION)
@@ -108,6 +140,7 @@ public final class ErrorResponse implements Serializable {
         return ErrorResponse.builder()
             .errorType(INTERNAL_ERROR)
             .message("Não foi possível realizar operação, tente novamente mais tarde.")
+            .details(emptyMap())
             .build();
     }
 
