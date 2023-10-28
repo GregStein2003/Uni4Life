@@ -12,10 +12,15 @@ import lombok.Getter;
 public enum ErrorType {
 
     BUSINESS(HttpStatus.BAD_REQUEST),
+
+    FORBIDDEN(HttpStatus.FORBIDDEN),
+
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR),
+
     NOT_IMPLEMENTED(HttpStatus.NOT_IMPLEMENTED),
     NOT_AUTHORIZED(HttpStatus.UNAUTHORIZED),
     NOT_FOUND(HttpStatus.NOT_FOUND),
+
     VALIDATION(HttpStatus.BAD_REQUEST);
 
     private final HttpStatus httpStatus;

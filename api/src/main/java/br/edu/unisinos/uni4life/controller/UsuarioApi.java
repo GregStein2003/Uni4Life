@@ -17,9 +17,10 @@ public interface UsuarioApi {
 
     @ApiOperation(value = "Operação responsável em consultar informações de um usuário.",
         notes = "Operação consulta os dados do usuário do identificador informado, "
-            + "na base de dados.")
+            + "na base de dados. Esse endpoint é necessário estar <strong>autenticado</strong>")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Sucesso."),
+        @ApiResponse(code = 401, message = "Usuário não autenticado."),
         @ApiResponse(code = 404, message = "Usuário não encontrado."),
         @ApiResponse(code = 500, message = "Erro Interno.")
     })

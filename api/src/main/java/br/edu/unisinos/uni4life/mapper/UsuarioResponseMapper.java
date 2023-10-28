@@ -23,6 +23,7 @@ public class UsuarioResponseMapper implements Function<UsuarioEntity, UsuarioRes
             .telefone(entity.getTelefone())
             .dataNascimento(entity.getDataNascimento())
             .tipoConta(entity.getTipo())
+            .segmento(entity.getSegmento())
             .build();
     }
 }

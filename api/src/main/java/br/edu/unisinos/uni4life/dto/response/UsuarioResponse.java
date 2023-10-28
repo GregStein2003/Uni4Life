@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import br.edu.unisinos.uni4life.domain.enumeration.usuario.Segmento;
 import br.edu.unisinos.uni4life.domain.enumeration.usuario.TipoConta;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
@@ -40,6 +41,10 @@ public final class UsuarioResponse implements Serializable {
     @ApiModelProperty(value = "Tipo da conta do usuário cadastrado", example = "PUBLICA")
     private final TipoConta tipoConta;
 
+    @ApiModelProperty(value = "Tipo de segmento do usuário", example = "ACADEMICO", allowableValues = "ACADEMICO, "
+        + "ADMINISTRADOR")
+    private final Segmento segmento;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
@@ -50,6 +55,7 @@ public final class UsuarioResponse implements Serializable {
             .append("telefone", telefone)
             .append("dataNascimento", dataNascimento)
             .append("tipoConta", tipoConta)
+            .append("segmento", segmento)
             .toString();
     }
 
