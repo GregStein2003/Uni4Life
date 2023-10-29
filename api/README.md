@@ -31,6 +31,33 @@ Deve aparecer uma imagem assim:
 
 ![swagger-ui](doc/swagger-ui.png "Exemplo da tela inical do swagger.")
 
+## Autenticação
+Objetivo dessa sessão é explicar como se autenticar na API com algum usuário, visto que o endpoint de autenticação 
+não é documentado no swagger. Com a aplicação rodando em `{ALGUMA_PORTA}` Basta executar o `curl` abaixo subisituido os 
+trecho `
+{EMAIL_USUARIO}` e `{SENHA_USUARIO}`
+
+````curl
+curl --location --request POST 'http://localhost:{ALGUMA_PORTA}/uni4life/oauth/token' \
+--header 'Authorization: Basic dW5pNGxpZmUtY2xpZW50OnVuaTRsaWZlLXNlY3JldA==' \
+--form 'grant_type="password"' \
+--form 'scope="app"' \
+--form 'username="{EMAIL_USUARIO}"' \
+--form 'password="{SENHA_USUARIO}"'
+````
+
+Esse endpoint vai fornecer um Bearer Token, com tempo de expiração de uma hora. Esse token sera necessário passar no 
+header `Authorization` para todos os endpoints que necessitam de autenticação. Exemplo de response do endpoint:
+
+```json
+{
+    "access_token": "ciUGPtUQoz4fc/qp/oDjJpat4fI=",
+    "token_type": "bearer",
+    "expires_in": 3599,
+    "scope": "app"
+}
+```
+
 ## Docker
 
 Objetivo dessa sessão é explicar como gerar a imagem para criação de um container docker para rodar
