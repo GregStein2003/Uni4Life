@@ -1,3 +1,4 @@
+import { Environment } from "../../../environment";
 import { api } from "../axios-config";
 
 type typeAccount = "private" | "public" | "PUBLICA" | "PRIVADA";
@@ -37,9 +38,7 @@ const create = async (dados: Omit<IUsuario, "id">): Promise<number | Error> => {
 
         dados.tipoConta = dados.tipoConta == "private" ? "PRIVADA" : "PUBLICA";
 
-        console.log(dados)
-
-        const { data } = await api.post<IUsuario>(`http://localhost:3131/uni4life/usuarios`, dados);
+        const { data } = await api.post<IUsuario>(`${Environment.urlBase}/usuarios`, dados);
 
         if(data) {
             return data.id;
