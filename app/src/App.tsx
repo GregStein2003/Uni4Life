@@ -1,12 +1,15 @@
-import { BrowserRouter } from "react-router-dom";
-import { Login } from "./shared/components";
+import "./shared/forms/TraducoesYup";
+import { Welcome } from "./shared/components";
+import { AppThemeProvider } from "./shared/contexts/"
 import { AppRoutes } from "./routes";
 
 function App() {
   return (
-      <Login>
-          <AppRoutes />
-      </Login>
+      <AppThemeProvider>
+        <Welcome>
+            <AppRoutes />
+        </Welcome>
+      </AppThemeProvider>
   )
 }
 

@@ -1,12 +1,12 @@
 import { createTheme } from "@mui/material";
-import { yellow, cyan } from "@mui/material/colors";
+import { cyan, blue } from "@mui/material/colors";
 
 export const LightTheme = createTheme({
     palette: {
         primary: {
-            main: yellow[700],
-            dark: yellow[800],
-            light: yellow[500],
+            main: blue[700],
+            dark: blue[800],
+            light: blue[500],
             contrastText: "#FFFFFF", 
         },
         secondary: {
@@ -16,8 +16,55 @@ export const LightTheme = createTheme({
             contrastText: "#FFFFFF", 
         },
         background: {
-            default: "#FFFFFF",
-            paper: "#F7F6F3",
+            default: "#262d63",
+            paper: "white",
         }
-    }
+    },
+    typography: {
+        h1: {
+            fontSize: "6rem",
+            fontFamily: "Jost",
+            fontWeight: 700,
+        },
+        h2: {
+            fontSize: "5rem",
+            fontFamily: "Jost",
+            fontWeight: 700,
+        },
+        h3: {
+            fontSize: "3rem",
+            fontFamily: "Jost",
+            fontWeight: 400,
+        },
+        body1: { // <p></p>
+            fontSize: "1.6rem",
+            fontFamily: "Roboto",
+            fontWeight: 400
+        },
+        button: {
+            fontSize: "1.6rem",
+            borderRadius: 2,
+            bgcolor:"#262d63",
+            '&:hover': { backgroundColor: "#214099" }
+        },
+        body2: { // <a></a>
+            fontSize: "1.4rem",
+            paddingBottom: ".6rem",
+            textDecoration: "underline",
+            fontFamily: "Roboto",
+            fontWeight: 400,
+            color: "#000000",
+            cursor: "pointer"
+        }
+    },
+    components: {
+          MuiFormHelperText: {
+            styleOverrides: {
+              root: {
+                    fontSize: "1.5rem",
+                    marginLeft: 0
+                }
+              }
+            }
+      }
 });
