@@ -1,13 +1,18 @@
 import "./shared/forms/TraducoesYup";
 import { Welcome } from "./shared/components";
-import { AppThemeProvider } from "./shared/contexts/"
+import { BrowserRouter } from "react-router-dom";
+import { AppThemeProvider, AppDrawerProvider } from "./shared/contexts/"
 import { AppRoutes } from "./routes";
 
 function App() {
   return (
       <AppThemeProvider>
         <Welcome>
-            <AppRoutes />
+          <AppDrawerProvider>
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </AppDrawerProvider>
         </Welcome>
       </AppThemeProvider>
   )

@@ -1,10 +1,9 @@
 import { Environment } from "../../../environment";
 import { api } from "../axios-config";
 
-type typeAccount = "private" | "public" | "PUBLICA" | "PRIVADA";
 export interface IUsuario {
     id: number;
-    tipoConta: typeAccount;
+    tipoConta: string;
     nome: string;
     email: string;
     registroAcademico: number;

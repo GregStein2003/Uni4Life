@@ -41,6 +41,7 @@ export const AutoComplete: React.FC = () => {
                     error={!!error}
                     helperText={error}
                     label="Tipo: "
+                    required
                 />
             )}
         />
