@@ -21,7 +21,6 @@ public class UsuarioResponseMapper implements Function<UsuarioEntity, UsuarioRes
             .email(entity.getEmail())
             .registroAcademico(entity.getRegistroAcademico())
             .telefone(entity.getTelefone())
-            .cep(entity.getCep())
             .dataNascimento(entity.getDataNascimento())
             .tipoConta(entity.getTipo())
             .build();

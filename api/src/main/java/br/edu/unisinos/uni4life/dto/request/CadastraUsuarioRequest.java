@@ -53,10 +53,6 @@ public final class CadastraUsuarioRequest implements Serializable {
     @ApiModelProperty(value = "Telefone do usuário, para contato", required = true, example = "(51)99999-9999")
     private final String telefone;
 
-    @Pattern(regexp = CEP_PADRAO, message = "{cep.invalido}")
-    @ApiModelProperty(value = "CEP do usuário", required = true, example = "93613-240")
-    private final String cep;
-
     @PastOrPresent(message = "{data-nascimento.invalida}")
     @NotNull(message = "{data-nascimento.invalida}")
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -76,7 +72,6 @@ public final class CadastraUsuarioRequest implements Serializable {
             .append("senha", toHashMD5(senha))
             .append("registroAcademico", registroAcademico)
             .append("telefone", telefone)
-            .append("cep", cep)
             .append("dataNascimento", dataNascimento)
             .append("tipoConta", tipoConta)
             .toString();
