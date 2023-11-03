@@ -31,6 +31,8 @@ public class UsuarioService {
     private final UsuarioRepository repository;
 
     public UsuarioResponse consultar(final UUID idUsuario) {
+        log.info("Consultando usuário com ID: {}", idUsuario);
+
         return repository.findById(idUsuario)
             .map(new UsuarioResponseMapper())
             .orElseThrow(() -> new ClientErrorException(NOT_FOUND, messageService.get(USUARIO_NAO_ENCONTRADO)));

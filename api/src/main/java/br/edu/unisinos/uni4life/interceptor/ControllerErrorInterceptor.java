@@ -5,6 +5,9 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -48,12 +51,32 @@ public class ControllerErrorInterceptor {
         return new ResponseEntity<>(error, error.getErrorType().getHttpStatus());
     }
 
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(final UsernameNotFoundException exception) {
+        final ErrorResponse error = ErrorResponse.build(exception);
+        log.warn("Erro com a requisição: ", exception);
+        return new ResponseEntity<>(error, error.getErrorType().getHttpStatus());
+    }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(final HttpMessageNotReadableException exception) {
         final ErrorResponse error = ErrorResponse.build(exception);
         log.warn("Não foi possível converter a requisição", exception);
         return new ResponseEntity<>(error, BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(final InsufficientAuthenticationException exception) {
+        final ErrorResponse error = ErrorResponse.build(exception);
+        log.warn("Erro de autenticação: {}", exception.getMessage());
+        return new ResponseEntity<>(error, error.getErrorType().getHttpStatus());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(final AccessDeniedException exception) {
+        final ErrorResponse error = ErrorResponse.build(exception);
+        log.warn("Erro de autorização: {}", exception.getMessage());
+        return new ResponseEntity<>(error, error.getErrorType().getHttpStatus());
     }
 
     @ExceptionHandler

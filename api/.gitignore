@@ -2,6 +2,7 @@ README.md
 mvnw
 mvnw.cmd
 target/
+storage/
 .mvn
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
