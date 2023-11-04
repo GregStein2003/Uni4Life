@@ -23,6 +23,7 @@ import br.edu.unisinos.uni4life.mapper.UsuarioResponseMapper;
 import br.edu.unisinos.uni4life.repository.SeguidorRepository;
 import br.edu.unisinos.uni4life.repository.UsuarioRepository;
 import br.edu.unisinos.uni4life.service.support.MessageService;
+import br.edu.unisinos.uni4life.service.support.StorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,7 +74,7 @@ public class UsuarioService {
         final UsuarioEntityMapper mapper = new UsuarioEntityMapper();
         final UsuarioEntity entity = repository.save(mapper.apply(request));
 
-        return new UsuarioResponseMapper().apply(entity);
+        return new UsuarioResponseMapper().apply(entity, null);
     }
 
 }

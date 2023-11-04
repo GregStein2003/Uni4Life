@@ -76,6 +76,9 @@ public class UsuarioEntity implements Serializable {
     @Column(name = "QUANTIADE_SEGUIDROES", nullable = false)
     private Long quantidadeSeguidores;
 
+		@Column(name = "IMAGEM_USUARIO")
+    private String imagem;
+
     @OneToMany(mappedBy = "autor", fetch = FetchType.EAGER)
     private List<ConteudoEnitity> conteudos;
 

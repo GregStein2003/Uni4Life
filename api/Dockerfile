@@ -8,6 +8,8 @@ RUN mvn clean install
 
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /api
+RUN mkdir -p "/api/storage"
+ENV STORAGE_PATH "/api/storage/"
 EXPOSE 8080
 COPY --from=builder /api/target/*.jar /api/*.jar
 ENTRYPOINT ["java", "-jar", "/api/*.jar" ]

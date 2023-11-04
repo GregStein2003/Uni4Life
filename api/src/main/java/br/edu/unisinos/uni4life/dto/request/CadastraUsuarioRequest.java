@@ -63,6 +63,11 @@ public final class CadastraUsuarioRequest implements Serializable {
         "PUBLICA, PRIVADA")
     private final TipoConta tipoConta;
 
+    // Campos opcionais:
+
+    @ApiModelProperty(value = "Imagem codificada em Base 64")
+    private final String imagem;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, SHORT_PREFIX_STYLE)

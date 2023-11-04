@@ -1,6 +1,7 @@
 package br.edu.unisinos.uni4life.mapper;
 
 import static java.util.Objects.isNull;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.time.LocalDateTime;
 import java.util.Map;
