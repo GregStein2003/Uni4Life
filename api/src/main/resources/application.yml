@@ -62,3 +62,5 @@ springfox:
     apis:
       - name: UsuarioApi
         description: Serviços relacionados aos usuários.
+      - name: ConteudoApi
+        description: Serviços relacionados aos conteúdos da plataforma.

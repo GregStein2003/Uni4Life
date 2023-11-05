@@ -15,15 +15,16 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import br.edu.unisinos.uni4life.domain.enumeration.conteudo.TipoConteudo;
 import br.edu.unisinos.uni4life.domain.enumeration.usuario.TipoConta;
 
 @Target(value = {METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = TipoContaValidator.class)
-public @interface TipoContaValid {
-    TipoConta[] anyOf();
-    String message() default "{tipo-conta.invalido}";
+@Constraint(validatedBy = TipoConteudoValidator.class)
+public @interface TipoConteudoValido {
+    TipoConteudo[] anyOf();
+    String message() default "{tipo-conteudo.invalido}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

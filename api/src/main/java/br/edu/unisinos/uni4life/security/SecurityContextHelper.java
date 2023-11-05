@@ -1,16 +1,25 @@
 package br.edu.unisinos.uni4life.security;
 
-import org.springframework.security.core.context.SecurityContextHolder;
+import java.util.UUID;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public final class SecurityContextHelper {
 
+    /**
+     * Retorna usuário autenticado na aplicação
+     */
+    public static UsuarioPrincipal getUsuarioPrincipal() {
+        return (UsuarioPrincipal) SecurityContextHolder.getContext().getAuthentication()
+            .getPrincipal();
+    }
+
    /**
-    * Retorna usuário autenticado na aplicação
+    * Retorna ID do usuário autenticado na aplicação
     */
-   public static UsuarioPrincipal getUsuarioPrincipal() {
-      return (UsuarioPrincipal) SecurityContextHolder.getContext().getAuthentication()
-          .getPrincipal();
-   }
+    public static UUID getUsuarioPrincipalId() {
+        final UsuarioPrincipal usuario = (UsuarioPrincipal) SecurityContextHolder.getContext().getAuthentication()
+            .getPrincipal();
+        return usuario.getId();
+    }
 }

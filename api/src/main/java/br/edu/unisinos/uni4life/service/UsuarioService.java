@@ -35,12 +35,15 @@ public class UsuarioService {
 
         return repository.findById(idUsuario)
             .map(new UsuarioResponseMapper())
-            .orElseThrow(() -> new ClientErrorException(NOT_FOUND, messageService.get(USUARIO_NAO_ENCONTRADO)));
+            .orElseThrow(() -> {
+                log.warn("Usuário não encontrado com ID: {}", idUsuario);
+                return new ClientErrorException(NOT_FOUND, messageService.get(USUARIO_NAO_ENCONTRADO));
+            });
     }
 
     @Transactional
     public UsuarioResponse cadastrar(final CadastraUsuarioRequest request) {
-        log.info("Realizando o cadastro do usuário: " + request);
+        log.info("Realizando o cadastro do usuário: {}", request);
 
         final UsuarioEntity entity = repository.save(USUARIO_MAPPER.apply(request));
 
