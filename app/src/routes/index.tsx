@@ -16,14 +16,19 @@ export const AppRoutes = () => {
                 path: "/"
             },
             {
-                label: "Pessoas",
-                icon: "people",
-                path: "/pessoas"
+                label: "Explorar",
+                icon: "search",
+                path: "/busca"
             },
             {
-                label: "Cidades",
-                icon: "location_city",
-                path: "/cidades"
+                label: "Perfil",
+                icon: "account_circle",
+                path: "/perfil"
+            },
+            {
+                label: "Configurações",
+                icon: "settings",
+                path: "/configuracoes"
             }
         ]);
     }, []);

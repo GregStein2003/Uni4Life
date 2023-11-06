@@ -55,7 +55,8 @@ export let LightTheme = createTheme({
             fontWeight: 400,
             color: "#000000",
             cursor: "pointer"
-        }
+        },
+        
     }
 });
 

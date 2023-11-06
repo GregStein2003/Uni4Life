@@ -1,0 +1,33 @@
+:root {
+  --color-primary-item: "#262d63";
+  --color-primary-item-hover: "#214099";
+}
+
+.menuLateralItem {
+  max-width: 250px;
+  background: var(--color-primary-item);
+  border-radius: 40px;
+  color: white;
+  font-size: 3rem;
+}
+
+.menuLateralItem:hover {
+  background-color: var(--color-primary-item-hover);
+}
+
+.menuLateralItemText {
+  color: 'white';
+  font-size: "4rem";
+  max-width: 20rem;
+}
+
+.menuLateralItemText span {
+  font-size: 2rem;
+  text-align: left;
+  font-family: "Jost";
+  letter-spacing: .1rem;
+}
+
+.menuLateralIcon span {
+  font-size: 6rem;
+}

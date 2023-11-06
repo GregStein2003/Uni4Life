@@ -11,30 +11,9 @@ export interface IUsuario {
     telefone: string;
     senha: string;
 }
-export interface ILogin {
-    email: string;
-    senha: string;
-}
-
-const verify = async (dados: ILogin): Promise<any> => { // Incluir Typagem apos receber retorno da API
-    try{
-        const { data } = await api.post<ILogin>(`/login`, dados);
-
-        if(data) {
-            return data;
-        }
-
-        return new Error("Erro ao consultar login.");
-
-    }catch(error){
-        console.error(error);
-        return new Error((error as { message: string }).message || `${error}: Erro ao consultar login.`);
-    }
-};
 
 const create = async (dados: Omit<IUsuario, "id">): Promise<number | Error> => {
     try{
-
         dados.tipoConta = dados.tipoConta == "private" ? "PRIVADA" : "PUBLICA";
 
         const { data } = await api.post<IUsuario>(`${Environment.urlBase}/usuarios`, dados);
@@ -51,4 +30,4 @@ const create = async (dados: Omit<IUsuario, "id">): Promise<number | Error> => {
     }
 };
 
-export const WelcomeService = { verify, create };
+export const WelcomeService = { create };

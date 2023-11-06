@@ -1,10 +1,11 @@
 import * as yup from 'yup';
 import { useState } from "react";
 import { Box } from "@mui/system";
-import { LayoutBaseWelcome } from "../../layouts/";
-import bgLogin from "../../../images/bg-login.jpg"
-import Loader from "../../../images/loader.gif"
 import { AutoComplete } from "./AutoComplete";
+import Loader from "../../../images/loader.gif"
+import { useAuthContext } from '../../contexts';
+import bgLogin from "../../../images/bg-login.jpg"
+import { LayoutBaseWelcome } from "../../layouts/";
 import { VTextField, VForm, useVForm, IVFormErrors } from "../../forms/";
 import { WelcomeService } from "../../services/api/welcome/WelcomeService";
 import { Button, Card, CardActions, CardContent, Grid, Icon, Paper, Typography } from "@mui/material";
@@ -46,25 +47,27 @@ const formRegisterValidationSchema: yup.Schema<IFormRegisterData> = yup.object()
     confirmarSenha: yup.string().oneOf([yup.ref('senha'), undefined], "Senhas precisam ser iguais").required(),
 });
 
-
-
 export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
     const { formRef, submit } = useVForm();
     const [isLoading, setIsLoading] = useState(false);
+    const { isAuthenticated, Login } = useAuthContext();
     const [isRegister, setIsRegister] = useState(false);
+    const [passwordError, setPasswordError] = useState('');
+    const [emailError, setEmailError] = useState('');
     
 
     const handleLogin = (dados: IFormLoginData) => {
-        formLoginValidationSchema.validate(dados, { abortEarly: false }).then(dadosValidados => {
-            setIsLoading(true);
+        setIsLoading(true);
 
-            WelcomeService.verify(dadosValidados).then(result => {
-                setIsLoading(false);
-                if(result instanceof Error){
-                    alert(result.message);
-                }else {
-                    console.log("teste")
-                }
+        formLoginValidationSchema.validate(dados, { abortEarly: false }).then(dadosValidados => {
+            Login(dadosValidados.email, dadosValidados.senha).then(result => {
+              if(!!result){
+                const validationErros: IVFormErrors = {};
+                validationErros["senha"] = result;
+                formRef.current?.setErrors(validationErros);
+              }
+
+              setIsLoading(false);
             })
         }).catch((error: yup.ValidationError) => {
             const validationErros: IVFormErrors = {};
@@ -73,6 +76,7 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
                 validationErros[error.path] = error.message;
             });
             formRef.current?.setErrors(validationErros);
+            setIsLoading(false);
         });
     }
 
@@ -85,7 +89,8 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
                 if(result instanceof Error){
                     alert(result.message);
                 }else {
-                    console.log("teste")
+                    alert("Cadastro realizado com sucesso");
+                    setIsRegister(false)
                 }
             })
         }).catch((error: yup.ValidationError) => {
@@ -98,7 +103,7 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
         });
     }
 
-    if (true) return (
+    if (isAuthenticated) return (
         <>{children}</>
       );
 
@@ -129,6 +134,8 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
                                             name="email"
                                             fullWidth
                                             disabled={isLoading} 
+                                            error={!!emailError}
+                                            helperText={emailError}
                                         />
 
                                         <VTextField
@@ -136,9 +143,10 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
                                             name="senha"
                                             required 
                                             fullWidth 
+                                            error={!!passwordError}
+                                            helperText={passwordError}
                                             type="password"
                                             disabled={isLoading} 
-                                            onChange={() => {}} 
                                         />
                                     </Box>
                                 </CardContent>

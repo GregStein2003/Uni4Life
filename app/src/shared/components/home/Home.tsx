@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Box } from "@mui/system";
 import Loader from "../../../images/loader.gif"
 import { LayoutBaseDefault } from "../../layouts/";
+import { Dashboard } from "../dashboard/Dashboard";
+import { SearchContainer } from "../searchContainer/SearchContainer";
 import { MenuLateral } from "../menu-lateral/MenuLateral";
+
 import { Grid } from "@mui/material";
 
 export const Home: React.FC = () => {
@@ -12,11 +15,16 @@ export const Home: React.FC = () => {
         <LayoutBaseDefault>
 
             <Grid container item direction="row" spacing={2}>
-                <Grid item xs={12} sm={2} sx={{ position: "relative", display: "block"}} >
+                <Grid item xs={12} sm={3} sx={{ position: "relative", display: "block"}} >
                     <MenuLateral />
                 </Grid>
+                <Grid item xs={12} sm={5}>
+                    <Dashboard />
+                </Grid>
+                <Grid item xs={12} sm={4} display="flex" alignItems="flex-start" justifyContent="flex-end">
+                    <SearchContainer />
+                </Grid>
             </Grid>
-
 
 
             {isLoading && (

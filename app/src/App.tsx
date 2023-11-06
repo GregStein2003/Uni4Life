@@ -1,20 +1,22 @@
 import "./shared/forms/TraducoesYup";
 import { Welcome } from "./shared/components";
 import { BrowserRouter } from "react-router-dom";
-import { AppThemeProvider, AppDrawerProvider } from "./shared/contexts/"
+import { AppThemeProvider, AppDrawerProvider, AuthProvider } from "./shared/contexts/"
 import { AppRoutes } from "./routes";
 
 function App() {
   return (
-      <AppThemeProvider>
-        <Welcome>
-          <AppDrawerProvider>
-            <BrowserRouter>
-              <AppRoutes />
-            </BrowserRouter>
-          </AppDrawerProvider>
-        </Welcome>
-      </AppThemeProvider>
+    <AuthProvider>
+        <AppThemeProvider>
+          <Welcome>
+            <AppDrawerProvider>
+              <BrowserRouter>
+                <AppRoutes />
+              </BrowserRouter>
+            </AppDrawerProvider>
+          </Welcome>
+        </AppThemeProvider>
+      </AuthProvider>
   )
 }
 

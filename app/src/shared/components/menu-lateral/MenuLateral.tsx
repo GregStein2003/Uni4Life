@@ -1,8 +1,8 @@
+import "../../styles/MenuLateral.css"
 import { Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, Paper, useMediaQuery, useTheme } from "@mui/material"
 import { Box } from "@mui/system";
 import { useAppDrawerContext, useAppThemeContext, useAuthContext } from "../../contexts";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MenuLateralStyles } from "../../styles"
 
 interface IListItemLinkProps {
     to: string; // Link de redirecionamento
@@ -12,7 +12,6 @@ interface IListItemLinkProps {
 }
 
 const ListItemLink: React.FC<IListItemLinkProps> = ({ to, label, icon, onClick }) => {
-    const classes = MenuLateralStyles();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -24,17 +23,16 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, label, icon, onClick }
     const selectItemMenu = location.pathname === to ? true : false;
 
     return (
-        <ListItemButton selected={selectItemMenu} onClick={handleClick}>
+        <ListItemButton selected={selectItemMenu} className="menuLateralItem" onClick={handleClick}>
             <ListItemIcon>
                 <Icon sx={{ fontSize:"3rem",  color: "white", minWidth: "100%", marginRight: "12px" }}>{icon}</Icon>
             </ListItemIcon>
-            <ListItemText primary={label} className={classes.menuLateralItem}/>    
+            <ListItemText primary={label} className="menuLateralItemText"/>    
         </ListItemButton>
     )
 }
 
 export const MenuLateral: React.FC = () => {
-    const classes = MenuLateralStyles();
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -56,21 +54,20 @@ export const MenuLateral: React.FC = () => {
                                 onClick={smDown ? toggleDrawerOpen : undefined} 
                             />
                         ))}
-                        <ListItemButton onClick={toggleTheme} sx={{ display: "flex", alignItems: "center" }}>
+                        <ListItemButton onClick={toggleTheme} sx={{ display: "flex", alignItems: "center" }} className="menuLateralItem">
                             <ListItemIcon>
                                 <Icon sx={{ fontSize:"3rem",  color: "white", minWidth: "100%", marginRight: "12px" }}>dark_mode</Icon>
                             </ListItemIcon>
-                            <ListItemText primary="Alternar tema" className={classes.menuLateralItem}/>    
+                            <ListItemText primary="Alternar tema" className="menuLateralItemText"/>    
                         </ListItemButton>
-                        <ListItemButton onClick={logout}>
+                        <ListItemButton onClick={logout} className="menuLateralItem">
                             <ListItemIcon>
                                 <Icon sx={{ fontSize:"3rem",  color: "white", minWidth: "100%", marginRight: "12px" }}>logout</Icon>
                             </ListItemIcon>
-                            <ListItemText primary="Sair" className={classes.menuLateralItem} />    
+                            <ListItemText primary="Sair" className="menuLateralItemText" />    
                         </ListItemButton>
                     </List>
                 </Box>
-
             </Drawer>
         </>
     );
