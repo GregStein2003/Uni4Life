@@ -1,10 +1,11 @@
 import * as yup from 'yup';
 import { useState } from "react";
 import { Box } from "@mui/system";
-import { LayoutBaseWelcome } from "../../layouts/";
-import bgLogin from "../../../images/bg-login.jpg"
-import Loader from "../../../images/loader.gif"
 import { AutoComplete } from "./AutoComplete";
+import Loader from "../../../images/loader.gif"
+import { useAuthContext } from '../../contexts';
+import bgLogin from "../../../images/bg-login.jpg"
+import { LayoutBaseWelcome } from "../../layouts/";
 import { VTextField, VForm, useVForm, IVFormErrors } from "../../forms/";
 import { WelcomeService } from "../../services/api/welcome/WelcomeService";
 import { Button, Card, CardActions, CardContent, Grid, Icon, Paper, Typography } from "@mui/material";
@@ -24,14 +25,12 @@ const formLoginValidationSchema: yup.Schema<IFormLoginData> = yup.object().shape
     senha: yup.string().required(),
 });
 
-type typeAccount = "private" | "public";
-
 interface IFormRegisterData {
-    tipoConta: typeAccount;
+    tipoConta: string;
     nome: string;
     email: string;
     registroAcademico: number;
-    dataNascimento: string;
+    dataNascimento: Date;
     telefone: string;
     senha: string;
     confirmarSenha: string;
@@ -42,29 +41,33 @@ const formRegisterValidationSchema: yup.Schema<IFormRegisterData> = yup.object()
     email: yup.string().email().required(),
     dataNascimento: yup.date().required().typeError('Insira uma data válida'),
     telefone: yup.string().required(),
-    registroAcademico: yup.string().required(),
+    registroAcademico: yup.number().required(),
     tipoConta: yup.string().required(),
     senha: yup.string().required().min(8),
     confirmarSenha: yup.string().oneOf([yup.ref('senha'), undefined], "Senhas precisam ser iguais").required(),
 });
 
-export const Welcome: React.FC<IWelcomeProps> = () => {
+export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
     const { formRef, submit } = useVForm();
     const [isLoading, setIsLoading] = useState(false);
+    const { isAuthenticated, Login } = useAuthContext();
     const [isRegister, setIsRegister] = useState(false);
+    const [passwordError, setPasswordError] = useState('');
+    const [emailError, setEmailError] = useState('');
     
 
     const handleLogin = (dados: IFormLoginData) => {
-        formLoginValidationSchema.validate(dados, { abortEarly: false }).then(dadosValidados => {
-            setIsLoading(true);
+        setIsLoading(true);
 
-            WelcomeService.verify(dadosValidados).then(result => {
-                setIsLoading(false);
-                if(result instanceof Error){
-                    alert(result.message);
-                }else {
-                    console.log("teste")
-                }
+        formLoginValidationSchema.validate(dados, { abortEarly: false }).then(dadosValidados => {
+            Login(dadosValidados.email, dadosValidados.senha).then(result => {
+              if(!!result){
+                const validationErros: IVFormErrors = {};
+                validationErros["senha"] = result;
+                formRef.current?.setErrors(validationErros);
+              }
+
+              setIsLoading(false);
             })
         }).catch((error: yup.ValidationError) => {
             const validationErros: IVFormErrors = {};
@@ -73,6 +76,7 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
                 validationErros[error.path] = error.message;
             });
             formRef.current?.setErrors(validationErros);
+            setIsLoading(false);
         });
     }
 
@@ -85,7 +89,8 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
                 if(result instanceof Error){
                     alert(result.message);
                 }else {
-                    console.log("teste")
+                    alert("Cadastro realizado com sucesso");
+                    setIsRegister(false)
                 }
             })
         }).catch((error: yup.ValidationError) => {
@@ -97,6 +102,10 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
             formRef.current?.setErrors(validationErros);
         });
     }
+
+    if (isAuthenticated) return (
+        <>{children}</>
+      );
 
     return (
         <LayoutBaseWelcome>
@@ -125,6 +134,8 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
                                             name="email"
                                             fullWidth
                                             disabled={isLoading} 
+                                            error={!!emailError}
+                                            helperText={emailError}
                                         />
 
                                         <VTextField
@@ -132,9 +143,10 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
                                             name="senha"
                                             required 
                                             fullWidth 
+                                            error={!!passwordError}
+                                            helperText={passwordError}
                                             type="password"
                                             disabled={isLoading} 
-                                            onChange={() => {}} 
                                         />
                                     </Box>
                                 </CardContent>
@@ -190,15 +202,17 @@ export const Welcome: React.FC<IWelcomeProps> = () => {
                                         <Grid container item direction="row" spacing={2}>
                                                 <Grid item xs={12} sm={6}>
                                                     <VTextField
-                                                        label="Data de Nascimento: " 
+                                                        label="DD/MM/AAAA" 
                                                         name="dataNascimento"
+                                                        required
                                                         fullWidth 
                                                         disabled={isLoading} 
                                                     />
                                                 </Grid>
                                                 <Grid item xs={12} sm={6}>
                                                     <VTextField
-                                                        label="Telefone: " 
+                                                        label="(DD)XXXXX-XXXX" 
+                                                        required
                                                         name="telefone"
                                                         fullWidth 
                                                         disabled={isLoading} 

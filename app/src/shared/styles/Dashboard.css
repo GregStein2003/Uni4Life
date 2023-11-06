@@ -1,0 +1,39 @@
+.dashboard__name {
+    display: block;
+    font-size: 1.6rem;
+    font-family: "Roboto";
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.dashboard__data {
+    font-size: 1.2rem;
+    color: grey;
+    font-weight: 500;
+    font-family: "Jost";
+}
+
+.dashboard__icons-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 12px 0;
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.dashboard__icon-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 10px;
+    cursor: pointer;
+}
+
+.dashboard__icon-text {
+    font-size: 1.6rem;
+    font-family: "Jost";
+    font-weight: 500;
+    letter-spacing: .05rem;
+}

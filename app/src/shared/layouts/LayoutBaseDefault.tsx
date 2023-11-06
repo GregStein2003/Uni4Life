@@ -2,12 +2,11 @@ import { Typography, useTheme, Toolbar } from "@mui/material";
 import { Box } from "@mui/system";
 import Brand from "../../images/brand-unisinos.png"
 
-
-interface ILayoutBaseWelcomeProps {
+interface ILayoutBaseDefaultProps {
     children: React.ReactNode;
 }
 
-export const LayoutBaseWelcome: React.FC<ILayoutBaseWelcomeProps> = ({ children }) => {
+export const LayoutBaseDefault: React.FC<ILayoutBaseDefaultProps> = ({ children }) => {
     const theme = useTheme();
 
     return (
@@ -17,7 +16,7 @@ export const LayoutBaseWelcome: React.FC<ILayoutBaseWelcomeProps> = ({ children 
                     <Typography variant="h1">Uni4Life</Typography>
                 </Box>
             </Box>
-            <Box flex={1}>
+            <Box flex={1} sx={{ maxWidth: "1536px", width: "95%", margin: "30px auto", position: "relative" }}>
                 {children}
             </Box>
             <footer style={{height: theme.spacing(12), backgroundColor: theme.palette.background.default}}>

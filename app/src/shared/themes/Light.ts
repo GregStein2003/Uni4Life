@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material";
 import { cyan, blue } from "@mui/material/colors";
 
-export const LightTheme = createTheme({
+export let LightTheme = createTheme({
     palette: {
         primary: {
             main: blue[700],
@@ -17,7 +17,7 @@ export const LightTheme = createTheme({
         },
         background: {
             default: "#262d63",
-            paper: "white",
+            paper: "rgb(244, 244, 244)",
         }
     },
     typography: {
@@ -55,16 +55,41 @@ export const LightTheme = createTheme({
             fontWeight: 400,
             color: "#000000",
             cursor: "pointer"
-        }
-    },
+        },
+        
+    }
+});
+
+LightTheme = createTheme(LightTheme, {
     components: {
-          MuiFormHelperText: {
+        MuiFormHelperText: {
             styleOverrides: {
               root: {
                     fontSize: "1.5rem",
                     marginLeft: 0
                 }
-              }
             }
+        },
+        MuiDrawer: {
+            styleOverrides: {
+                paper: {
+                    position: 'absolute',
+                    border: "none",
+                    height: "auto",
+                    width: "100%"
+                },
+            },
+        },
+        MuiListItemButton: {
+            styleOverrides: {
+              root: {
+                backgroundColor: LightTheme.palette.background.default,
+                borderRadius: '40px',
+                '&:hover': { backgroundColor: "#214099" },
+                color: "white",
+                fontSize: "3rem"
+              },
+            },
+        },
       }
-});
+})
