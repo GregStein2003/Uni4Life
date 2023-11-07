@@ -8,6 +8,9 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Message {
 
+    //C
+    CONTEUDO_NAO_ENCONTRADO("conteudo.nao.encontrado"),
+
     //D
     DATA_INVALIDA("data.invalida"),
     DATA_NASCIMENTO_INVALIDA("data-nascimento.invalida"),

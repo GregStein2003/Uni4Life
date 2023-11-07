@@ -21,7 +21,7 @@ public interface UsuarioApi {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Sucesso."),
         @ApiResponse(code = 401, message = "Usuário não autenticado."),
-        @ApiResponse(code = 404, message = "Usuário não encontrado."),
+        @ApiResponse(code = 404, message = "Nenhum usuário não encontrado."),
         @ApiResponse(code = 500, message = "Erro Interno.")
     })
     UsuarioResponse consultar(@RequestParam("id") final UUID idUsuario);

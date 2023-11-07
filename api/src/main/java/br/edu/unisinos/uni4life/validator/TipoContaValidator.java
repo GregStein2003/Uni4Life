@@ -7,12 +7,12 @@ import javax.validation.ConstraintValidatorContext;
 
 import br.edu.unisinos.uni4life.domain.enumeration.usuario.TipoConta;
 
-public class TipoContaValidator implements ConstraintValidator<TipoContaValid, TipoConta> {
+public class TipoContaValidator implements ConstraintValidator<TipoContaValido, TipoConta> {
 
     private TipoConta[] subset;
 
     @Override
-    public void initialize(final TipoContaValid constraint) {
+    public void initialize(final TipoContaValido constraint) {
         this.subset = constraint.anyOf();
     }
 

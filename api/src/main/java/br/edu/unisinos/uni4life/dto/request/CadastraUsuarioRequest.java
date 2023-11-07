@@ -1,6 +1,5 @@
 package br.edu.unisinos.uni4life.dto.request;
 
-import static br.edu.unisinos.uni4life.domain.Padroes.CEP_PADRAO;
 import static br.edu.unisinos.uni4life.domain.Padroes.TELEFONE_PADRAO;
 import static br.edu.unisinos.uni4life.util.ValueUtil.toHashMD5;
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
@@ -20,7 +19,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import br.edu.unisinos.uni4life.domain.enumeration.usuario.TipoConta;
 import br.edu.unisinos.uni4life.mapper.LocalDateDeserializer;
-import br.edu.unisinos.uni4life.validator.TipoContaValid;
+import br.edu.unisinos.uni4life.validator.TipoContaValido;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -59,7 +58,7 @@ public final class CadastraUsuarioRequest implements Serializable {
     @ApiModelProperty(value = "Data de nascimento do usuário", required = true, example = "yyyy-MM-dd")
     private final LocalDate dataNascimento;
 
-    @TipoContaValid(anyOf = {TipoConta.PUBLICA, TipoConta.PRIVADA})
+    @TipoContaValido(anyOf = {TipoConta.PUBLICA, TipoConta.PRIVADA})
     @ApiModelProperty(value = "Tipo da conta do usuário", required = true, example = "PUBLICA", allowableValues =
         "PUBLICA, PRIVADA")
     private final TipoConta tipoConta;

@@ -2,14 +2,17 @@ package br.edu.unisinos.uni4life.domain.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -26,13 +29,15 @@ import lombok.Setter;
 @Table(name = "USUARIOS")
 public class UsuarioEntity implements Serializable {
 
+    private static final long serialVersionUID = -400085195788052650L;
+
     private static final String GENERATOR_NAME = "UUID";
 
     @Id
     @Type(type = "uuid-char")
     @GeneratedValue(generator = GENERATOR_NAME)
     @GenericGenerator(name = GENERATOR_NAME, strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "ID_USUARIOS", nullable = false)
+    @Column(name = "ID_USUARIO", nullable = false)
     private UUID id;
 
     @Column(name = "NOME", nullable = false)
@@ -60,4 +65,7 @@ public class UsuarioEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "SEGMENTO", nullable = false)
     private Segmento segmento;
+
+    @OneToMany(mappedBy = "autor", fetch = FetchType.EAGER)
+    private List<ConteudoEnitity> conteudos;
 }
