@@ -75,7 +75,6 @@ LightTheme = createTheme(LightTheme, {
                 paper: {
                     position: 'absolute',
                     border: "none",
-                    height: "auto",
                     width: "100%"
                 },
             },
@@ -83,6 +82,10 @@ LightTheme = createTheme(LightTheme, {
         MuiListItemButton: {
             styleOverrides: {
               root: {
+                "&.Mui-selected": {
+                    backgroundColor: "#214099",
+                    '&:hover': { backgroundColor: "#214099" },
+                },
                 backgroundColor: LightTheme.palette.background.default,
                 borderRadius: '40px',
                 '&:hover': { backgroundColor: "#214099" },

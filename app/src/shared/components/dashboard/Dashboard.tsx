@@ -1,11 +1,14 @@
-import { Box, Icon, IconButton, InputAdornment, ListItemButton, ListItemIcon, ListItemText, Paper, TextField, Typography } from "@mui/material"
+import { Box, Icon, IconButton, InputAdornment, Button , Paper, TextField, Typography } from "@mui/material"
 import "../../styles/Dashboard.css"
 
 export const Dashboard: React.FC = () => {
     return (
+        <>
+        <Button variant="contained" sx={{ display: "flex", justifyContent: "flex-end", marginLeft: "auto" , marginBottom: 2 }} endIcon={<Icon>add</Icon>}>
+              Novo
+        </Button>
         <Box
             gap={1} 
-            marginX={1}
             paddingY={3}
             paddingX={3}
             component={Paper}
@@ -87,8 +90,7 @@ export const Dashboard: React.FC = () => {
                   }}
                 onChange={(e) => console.log(e)}/>
         </Box>
-
-
         </Box>
+    </>
     )
 }

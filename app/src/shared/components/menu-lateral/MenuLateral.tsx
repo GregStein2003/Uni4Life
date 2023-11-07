@@ -1,5 +1,5 @@
 import "../../styles/MenuLateral.css"
-import { Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, Paper, useMediaQuery, useTheme } from "@mui/material"
+import { Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme } from "@mui/material"
 import { Box } from "@mui/system";
 import { useAppDrawerContext, useAppThemeContext, useAuthContext } from "../../contexts";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -34,7 +34,7 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, label, icon, onClick }
 
 export const MenuLateral: React.FC = () => {
     const theme = useTheme();
-    const smDown = useMediaQuery(theme.breakpoints.down("sm"));
+    const smDown = useMediaQuery(theme.breakpoints.down("md"));
 
     const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useAppDrawerContext();
     const { toggleTheme } = useAppThemeContext();
@@ -42,9 +42,9 @@ export const MenuLateral: React.FC = () => {
 
     return (
         <>
-            <Drawer open={isDrawerOpen} variant={smDown ? "temporary" : "permanent"} onClose={toggleDrawerOpen}>
+            <Drawer open={isDrawerOpen} variant={smDown ? "temporary" : "permanent"} onClose={toggleDrawerOpen} className="menuLateral">
                 <Box width="100%">
-                    <List component="nav" sx={{ display: "flex", flexDirection: "column", rowGap: 1, width: "100%" }}>
+                    <List component="nav" sx={{ display: "flex", flexDirection: "column", rowGap: 1, width: "100%" }} className="menuLateralNav">
                         {drawerOptions.map(drawerOption => (
                             <ListItemLink 
                                 to={drawerOption.path}
