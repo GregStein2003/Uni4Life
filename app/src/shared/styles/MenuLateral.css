@@ -3,6 +3,10 @@
   --color-primary-item-hover: "#214099";
 }
 
+.menuLateral {
+  width: 325px;
+}
+
 .menuLateralItem {
   max-width: 250px;
   background: var(--color-primary-item);
@@ -30,4 +34,18 @@
 
 .menuLateralIcon span {
   font-size: 6rem;
+}
+
+@media screen and (max-width: 992px){
+  .css-oyough-MuiPaper-root-MuiDrawer-paper {
+    background-color: #F6F6F6;
+  }
+  
+  .menuLateralNav {
+      align-items: center;
+  }
+
+  .menuLateralItem {
+      width: 100%;
+  }
 }

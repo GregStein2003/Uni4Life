@@ -1,0 +1,19 @@
+.layout-base-default__menu-container {
+    display: block;
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.layout-base-default__menu {
+    color: white;
+    transform: scale(3);
+}
+
+@media only screen and (min-width: 992px){
+    .layout-base-default__menu-container {
+        display: none;
+    }
+}
+
