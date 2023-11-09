@@ -8,15 +8,26 @@ public class ServerErrorException extends AbstractErrorException {
 
     private static final long serialVersionUID = -5809529426540256544L;
 
-    private ErrorType errorType;
+    private final ErrorType errorType;
 
     public ServerErrorException(final String msg) {
         super(msg);
         this.errorType = INTERNAL_ERROR;
     }
 
+
+    public ServerErrorException(final String msg, final String field) {
+        super(msg, field);
+        this.errorType = INTERNAL_ERROR;
+    }
+
     public ServerErrorException(final ErrorType errorType, final String msg) {
         super(msg);
+        this.errorType = errorType;
+    }
+
+    public ServerErrorException(final ErrorType errorType, final String msg, final String field) {
+        super(msg, field);
         this.errorType = errorType;
     }
 

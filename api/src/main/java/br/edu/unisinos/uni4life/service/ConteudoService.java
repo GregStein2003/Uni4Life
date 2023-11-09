@@ -1,9 +1,12 @@
 package br.edu.unisinos.uni4life.service;
 
 import static br.edu.unisinos.uni4life.domain.enumeration.ErrorType.NOT_FOUND;
+import static br.edu.unisinos.uni4life.domain.enumeration.ErrorType.VALIDATION;
 import static br.edu.unisinos.uni4life.domain.enumeration.Message.CONTEUDO_NAO_ENCONTRADO;
+import static br.edu.unisinos.uni4life.domain.enumeration.Message.LINK_CONTEUDO_INVALIDO;
 import static br.edu.unisinos.uni4life.domain.enumeration.Message.USUARIO_NAO_ENCONTRADO;
 import static br.edu.unisinos.uni4life.security.SecurityContextHelper.getUsuarioPrincipalId;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.util.UUID;
 
@@ -37,17 +40,8 @@ public class ConteudoService {
     private final ConteudoRepository repository;
     private final MessageService messageService;
 
-    public Page<ConteudoResponse> consultar(final Pageable paginacao) {
-        final UUID idAutor = getUsuarioPrincipalId();
-        log.warn("Consultando conteúdo do usuário: {}", idAutor);
-
-        return repository.findByAutorId(idAutor, paginacao)
-            .map(new ConteudoResponseMapper());
-
-    }
-
     public ConteudoResponse consultar(final UUID idConteudo) {
-        log.warn("Consultando conteúdo com ID: {}", idConteudo);
+        log.info("Consultando conteúdo com ID: {}", idConteudo);
 
         return repository.findById(idConteudo)
             .map(new ConteudoResponseMapper())
@@ -57,11 +51,32 @@ public class ConteudoService {
             });
     }
 
+    public Page<ConteudoResponse> consultar(final Pageable paginacao) {
+        final UUID idAutor = getUsuarioPrincipalId();
+        log.info("Consultando conteúdo do usuário: {}", idAutor);
+
+        return repository.findByAutorId(idAutor, paginacao)
+            .map(new ConteudoResponseMapper());
+
+    }
+
+    public Page<ConteudoResponse> consultarConteudosSeguidos(final Pageable paginacao) {
+        log.info("Consultando conteúdos seguidos pelo usuário: {}", getUsuarioPrincipalId());
+
+        return repository.findConteudoSeguido(getUsuarioPrincipalId(), paginacao)
+            .map(new ConteudoResponseMapper());
+    }
+
     @Transactional
     public ConteudoResponse cadastrar(final CadastraConteudoRequest request) {
         log.info("Realizando cadastro do conteudo: {}", request);
 
         final UsuarioEntity autor = getAutor(getUsuarioPrincipalId());
+
+        if (validaLinkConteudo(request)) {
+            log.warn("Link não informado ou inválido.");
+            throw new ClientErrorException(VALIDATION, messageService.get(LINK_CONTEUDO_INVALIDO), "link");
+        }
 
         final ConteudoEnitity enitity = repository.save(CONTEUDO_MAPPER.apply(request, autor));
 
@@ -74,5 +89,9 @@ public class ConteudoService {
                 log.warn("Autor não encontrado");
                 return new ClientErrorException(NOT_FOUND, messageService.get(USUARIO_NAO_ENCONTRADO));
             });
+    }
+
+    private boolean validaLinkConteudo(final CadastraConteudoRequest request) {
+        return request.getTipoConteudo().isPrecisaLink() && isBlank(request.getLink());
     }
 }

@@ -8,7 +8,9 @@ import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +36,18 @@ public class ConteudoController implements ConteudoApi {
     @GetMapping("/meu")
     public Pagina<ConteudoResponse> consultar(@RequestParam(value = "pagina", required = false) final Integer pagina,
         @RequestParam(value = "tamanho", required = false) final Integer tamanho) {
-        return new Pagina<>(conteudoService.consultar(paginacao(pagina, tamanho, Sort.by("dataCriacao"))));
+        final Pageable paginacao = paginacao(pagina, tamanho, Sort.by(Direction.DESC, "dataCriacao"));
+        return new Pagina<>(conteudoService.consultar(paginacao));
+    }
+
+
+    @Override
+    @GetMapping("/seguidos")
+    public Pagina<ConteudoResponse> consultarConteudosSeguidos(
+        @RequestParam(value = "pagina", required = false) final Integer pagina,
+        @RequestParam(value = "tamanho", required = false) final Integer tamanho) {
+        final Pageable paginacao = paginacao(pagina, tamanho, Sort.by(Direction.DESC, "dataCriacao"));
+        return new Pagina<>(conteudoService.consultarConteudosSeguidos(paginacao));
     }
 
     @Override

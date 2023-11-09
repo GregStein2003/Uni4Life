@@ -8,6 +8,9 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import br.edu.unisinos.uni4life.domain.enumeration.usuario.Segmento;
 import br.edu.unisinos.uni4life.domain.enumeration.usuario.TipoConta;
 import io.swagger.annotations.ApiModelProperty;
@@ -45,6 +48,13 @@ public final class UsuarioResponse implements Serializable {
         + "ADMINISTRADOR")
     private final Segmento segmento;
 
+    @ApiModelProperty(value = "Quantidade de seguidores na plataforma", example = "5")
+    private final Long seguidores;
+
+    @JsonInclude(value = Include.NON_NULL)
+    @ApiModelProperty(value = "Data de inicio do relacionamento com usuário", example = "2023-09-11")
+    private LocalDate dataRelacionamento;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
@@ -56,6 +66,7 @@ public final class UsuarioResponse implements Serializable {
             .append("dataNascimento", dataNascimento)
             .append("tipoConta", tipoConta)
             .append("segmento", segmento)
+            .append("seguidores", seguidores)
             .toString();
     }
 
