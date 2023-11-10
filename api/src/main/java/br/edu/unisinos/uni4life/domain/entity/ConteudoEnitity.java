@@ -45,18 +45,18 @@ public class ConteudoEnitity implements Serializable {
     @Column(name = "TITULO", nullable = false)
     private String titulo;
 
-    @Column(name = "DESCRICAO", nullable = false)
+    @Column(name = "DESCRICAO", nullable = false, length = 2000)
     private String descricao;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "TIPO_CONTEUDO", nullable = false)
     private TipoConteudo tipo;
 
-    @Column(name = "LINK_CONTEUDO", nullable = false)
-    private String link;
-
     @Column(name = "DATA_CRIACAO", nullable = false)
     private LocalDateTime dataCriacao;
+
+    @Column(name = "LINK_CONTEUDO")
+    private String link;
 
     @Column(name = "DATA_ATUALIZACAO")
     private LocalDateTime dataAtualizacao;

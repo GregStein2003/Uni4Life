@@ -15,12 +15,17 @@ public class ClientErrorException extends AbstractErrorException {
         this.errorType = errorType;
     }
 
-    public ClientErrorException(ErrorType errorType, String msg, final Throwable th) {
+    public ClientErrorException(final ErrorType errorType, final String msg, final String field) {
+        super(msg, field);
+        this.errorType = errorType;
+    }
+
+    public ClientErrorException(final ErrorType errorType, final String msg, final Throwable th) {
         super(msg, th);
         this.errorType = errorType;
     }
 
-    public ClientErrorException(ErrorType errorType, String msg, Map details) {
+    public ClientErrorException(final ErrorType errorType, final String msg, final Map details) {
         super(msg);
         this.errorType = errorType;
         this.getDetails().putAll(details);

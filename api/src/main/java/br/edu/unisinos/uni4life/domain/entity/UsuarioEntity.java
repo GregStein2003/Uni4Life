@@ -3,6 +3,7 @@ package br.edu.unisinos.uni4life.domain.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -13,10 +14,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.hibernate.proxy.HibernateProxy;
 
 import br.edu.unisinos.uni4life.domain.enumeration.usuario.Segmento;
 import br.edu.unisinos.uni4life.domain.enumeration.usuario.TipoConta;
@@ -66,6 +69,42 @@ public class UsuarioEntity implements Serializable {
     @Column(name = "SEGMENTO", nullable = false)
     private Segmento segmento;
 
+    @Column(name = "QUANTIADE_SEGUIDROES", nullable = false)
+    private Long quantidadeSeguidores;
+
     @OneToMany(mappedBy = "autor", fetch = FetchType.EAGER)
     private List<ConteudoEnitity> conteudos;
+
+    @PrePersist
+    public void create() {
+        this.quantidadeSeguidores = 0L;
+    }
+
+
+    @Override
+    public final boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        final Class<?> oEffectiveClass = o instanceof HibernateProxy
+            ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        final Class<?> thisEffectiveClass = this instanceof HibernateProxy
+            ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass()
+            : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) {
+            return false;
+        }
+        final UsuarioEntity entity = (UsuarioEntity) o;
+        return getId() != null && Objects.equals(getId(), entity.getId());
+    }
+
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer()
+            .getPersistentClass()
+            .hashCode() : getClass().hashCode();
+    }
 }

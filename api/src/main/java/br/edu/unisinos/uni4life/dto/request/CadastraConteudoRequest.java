@@ -29,12 +29,12 @@ public final class CadastraConteudoRequest implements Serializable {
         + "descrição do meu conteúdo")
     private final String descricao;
 
-    @TipoConteudoValido(anyOf = {TipoConteudo.LIVRO, TipoConteudo.VIDEO, TipoConteudo.PODCAST, TipoConteudo.MUSICA})
+    @TipoConteudoValido(anyOf = {TipoConteudo.LIVRO, TipoConteudo.VIDEO, TipoConteudo.PODCAST,
+        TipoConteudo.MUSICA, TipoConteudo.TEXTO})
     @ApiModelProperty(value = "Tipo do conteúdo para ser cadastrado", required = true, example = "LIVRO",
-        allowableValues = "LIVRO, VIDEO, PODCAST, MUSICA")
+        allowableValues = "LIVRO, VIDEO, PODCAST, MUSICA, TEXTO")
     private final TipoConteudo tipoConteudo;
 
-    @NotBlank(message = "{link-conteudo.invalido}")
     @ApiModelProperty(value = "Link HTTP do conteúdo para ser cadastrado", required = true)
     private final String link;
 

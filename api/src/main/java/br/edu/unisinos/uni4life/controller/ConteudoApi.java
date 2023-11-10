@@ -2,8 +2,6 @@ package br.edu.unisinos.uni4life.controller;
 
 import java.util.UUID;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,8 +25,23 @@ public interface ConteudoApi {
         @ApiResponse(code = 401, message = "Usuário não autenticado."),
         @ApiResponse(code = 500, message = "Erro Interno.")
     })
-    Pagina<ConteudoResponse> consultar(@RequestParam("pagina") Integer pagina,
-        @RequestParam("tamanho") Integer tamanho);
+    Pagina<ConteudoResponse> consultar(@RequestParam(value = "pagina", required = false) Integer pagina,
+        @RequestParam(value = "tamanho", required = false) Integer tamanho);
+
+    @ApiOperation(value = "Operação responsável por consultar todos os conteúdos seguidos.",
+        notes = "Operação consulta os conteúdos de todos os usuários seguidos pelo usuário autenticado"
+            + " na base de dados. Os contéudos retornados são apenas daqueles usuários que possuem"
+            + " a conta do tipo <strong>PUBLICA</strong>"
+            + " Caso não econtre nenhum conteúdo retorna uma lista vazia. "
+            + "Esse endpoint é necessário estar <strong>autenticado</strong>")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Sucesso."),
+        @ApiResponse(code = 401, message = "Usuário não autenticado."),
+        @ApiResponse(code = 500, message = "Erro Interno.")
+    })
+    Pagina<ConteudoResponse> consultarConteudosSeguidos(
+        @RequestParam(value = "pagina", required = false) Integer pagina,
+        @RequestParam(value = "tamanho", required = false) Integer tamanho);
 
     @ApiOperation(value = "Operação responsável em consultar informações de um conteúdo.",
         notes = "Operação consulta os dados do conteúdo pelo  identificador informado "
@@ -36,7 +49,6 @@ public interface ConteudoApi {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Sucesso."),
         @ApiResponse(code = 401, message = "Usuário não autenticado."),
-        @ApiResponse(code = 404, message = "Nenhum conteúdo não encontrado."),
         @ApiResponse(code = 500, message = "Erro Interno.")
     })
     ConteudoResponse consultar(@RequestParam("id") final UUID idConteudo);
