@@ -3,7 +3,7 @@ package br.edu.unisinos.uni4life.mapper;
 import static java.util.Objects.isNull;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.util.Map;
 
 import br.edu.unisinos.uni4life.domain.entity.UsuarioEntity;
 import br.edu.unisinos.uni4life.dto.response.UsuarioResponse;
@@ -25,6 +25,28 @@ public class UsuarioResponseMapper {
             .tipoConta(entity.getTipo())
             .segmento(entity.getSegmento())
             .seguidores(entity.getQuantidadeSeguidores())
+            .build();
+    }
+
+    public UsuarioResponse apply(final Map<String, Object> tuple) {
+        if (isNull(tuple)) {
+            return null;
+        }
+
+        final UsuarioEntity usuario = (UsuarioEntity) tuple.get("usuario");
+        final boolean isSeguido = (boolean) tuple.get("seguido");
+
+        return UsuarioResponse.builder()
+            .id(usuario.getId())
+            .nome(usuario.getNome())
+            .email(usuario.getEmail())
+            .registroAcademico(usuario.getRegistroAcademico())
+            .telefone(usuario.getTelefone())
+            .dataNascimento(usuario.getDataNascimento())
+            .tipoConta(usuario.getTipo())
+            .segmento(usuario.getSegmento())
+            .seguidores(usuario.getQuantidadeSeguidores())
+            .seguido(isSeguido)
             .build();
     }
 

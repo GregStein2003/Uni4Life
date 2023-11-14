@@ -23,13 +23,17 @@ import org.hibernate.proxy.HibernateProxy;
 
 import br.edu.unisinos.uni4life.domain.enumeration.usuario.Segmento;
 import br.edu.unisinos.uni4life.domain.enumeration.usuario.TipoConta;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "USUARIOS")
+@AllArgsConstructor
+@NoArgsConstructor
 public class UsuarioEntity implements Serializable {
 
     private static final long serialVersionUID = -400085195788052650L;

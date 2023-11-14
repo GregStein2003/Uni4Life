@@ -20,12 +20,16 @@ public class ValueUtil {
         return nonNull(str) ? new BCryptPasswordEncoder().encode(str) : "";
     }
 
+    public static Pageable paginacao(final Integer pagina, final Integer tamanho) {
+        return paginacao(pagina, tamanho, Sort.unsorted());
+    }
+
     public static Pageable paginacao(final Integer pagina, final Integer tamanho, final Sort ordenacao) {
         final int numeroPagina = Optional.ofNullable(pagina)
             .filter(page -> page > 0)
             .map(page -> page - 1)
             .orElse(0);
         final int numeroElementos =  Optional.ofNullable(tamanho).orElse(10);
-        return PageRequest.of(numeroPagina, numeroElementos, ordenacao);
+        return PageRequest.of(numeroPagina, numeroElementos, Optional.ofNullable(ordenacao).orElseGet(Sort::unsorted));
     }
 }

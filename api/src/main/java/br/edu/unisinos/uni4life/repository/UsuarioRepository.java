@@ -1,5 +1,6 @@
 package br.edu.unisinos.uni4life.repository;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.unisinos.uni4life.domain.entity.UsuarioEntity;
 
@@ -18,11 +20,13 @@ public interface UsuarioRepository extends CrudRepository<UsuarioEntity, UUID> {
 
     Optional<UsuarioEntity> findByEmail(final String email);
 
-    @Query("SELECT U FROM UsuarioEntity U "
+    @Transactional(readOnly = true)
+    @Query("SELECT U as usuario, "
+        + "CASE WHEN S.seguidor.id = :idUsuario THEN true ELSE false END AS seguido "
+        + "FROM UsuarioEntity U "
         + "LEFT JOIN SeguidorEntity S ON U.id = S.seguido.id "
-        + "WHERE (S.seguidor.id != :idUsuario OR S.seguidor.id IS NULL) AND U.id != :idUsuario")
-    Page<UsuarioEntity> findUsuariosToFollow(@Param("idUsuario") final UUID idUsuario,
-        final Pageable paginacao);
+        + "WHERE (S.seguidor.id = :idUsuario OR S.seguidor.id IS NULL) AND U.id != :idUsuario")
+    Page<Map<String, Object>> findUsuariosToFollow(@Param("idUsuario") final UUID idUsuario, final Pageable paginacao);
 
 
     @Modifying
