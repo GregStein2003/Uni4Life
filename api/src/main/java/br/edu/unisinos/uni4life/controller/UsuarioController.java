@@ -51,7 +51,7 @@ public class UsuarioController implements UsuarioApi {
     public Pagina<UsuarioResponse> consultarUsuariosParaSeguir(
         @RequestParam(value = "pagina", required = false) final Integer pagina,
         @RequestParam(value = "tamanho", required = false) final Integer tamanho) {
-        final Pageable paginacao = paginacao(pagina, tamanho, Sort.by("nome"));
+        final Pageable paginacao = paginacao(pagina, tamanho);
         return new Pagina<>(usuarioService.consultarUsuariosParaSeguir(paginacao));
     }
 

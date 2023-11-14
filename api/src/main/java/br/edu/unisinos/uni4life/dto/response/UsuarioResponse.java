@@ -55,6 +55,11 @@ public final class UsuarioResponse implements Serializable {
     @ApiModelProperty(value = "Data de inicio do relacionamento com usuário", example = "2023-09-11")
     private LocalDate dataRelacionamento;
 
+    @JsonInclude(value = Include.NON_NULL)
+    @ApiModelProperty(value = "Flag booleana caso o usuário consultado é seguido pelo usuário autenticado",
+        example = "true", allowableValues = "true, false")
+    private Boolean seguido;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, SHORT_PREFIX_STYLE)
