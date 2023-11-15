@@ -60,6 +60,9 @@ public final class UsuarioResponse implements Serializable {
         example = "true", allowableValues = "true, false")
     private Boolean seguido;
 
+    @ApiModelProperty(value = "Imagem do usuário em Base64")
+    private final String imagem;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, SHORT_PREFIX_STYLE)

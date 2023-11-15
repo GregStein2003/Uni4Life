@@ -18,6 +18,11 @@ public enum Message {
     //E
     EMAIL_CADASTRADO("email.cadastrado"),
 
+    //I
+    IMAGEM_INVALIDA("imagem.invalida"),
+    IMAGEM_CONTEUDO_INVALIDA("imagem.conteudo.invalido"),
+    IMAGEM_USUARIO_INVALIDA("imagem.usuario.invalida"),
+
     //L
     LINK_CONTEUDO_INVALIDO("link-conteudo.invalido"),
 

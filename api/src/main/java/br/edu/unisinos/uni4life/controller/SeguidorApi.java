@@ -39,17 +39,17 @@ public interface SeguidorApi {
         @ApiResponse(code = 404, message = "Usuário não encontrado."),
         @ApiResponse(code = 500, message = "Erro Interno.")
     })
-    void seguir(@RequestParam("idSeguido") final UUID idSeguido);
+    UsuarioResponse seguir(@RequestParam("idSeguido") final UUID idSeguido);
 
     @ApiOperation(value = "Operação responsável remover relação entres um usuários na plataforma.",
         notes = "Operação recebe o id do usuário seguido, remove o relacionamento entre ele"
             + " com o usuário autenticado. Esse endpoint é necessário estar <strong>autenticado</strong>")
     @ApiResponses(value = {
-        @ApiResponse(code = 204, message = "Sucesso."),
+        @ApiResponse(code = 200, message = "Sucesso."),
         @ApiResponse(code = 401, message = "Usuário não autenticado."),
         @ApiResponse(code = 404, message = "Usuário não encontrado."),
         @ApiResponse(code = 500, message = "Erro Interno.")
     })
-    void remover(@RequestParam("idSeguido") final UUID idSeguido);
+    UsuarioResponse remover(@RequestParam("idSeguido") final UUID idSeguido);
 
 }

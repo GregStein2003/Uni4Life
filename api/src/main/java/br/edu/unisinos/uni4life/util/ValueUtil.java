@@ -29,7 +29,7 @@ public class ValueUtil {
             .filter(page -> page > 0)
             .map(page -> page - 1)
             .orElse(0);
-        final int numeroElementos =  Optional.ofNullable(tamanho).orElse(10);
+        final int numeroElementos = Optional.ofNullable(tamanho).orElse(10);
         return PageRequest.of(numeroPagina, numeroElementos, Optional.ofNullable(ordenacao).orElseGet(Sort::unsorted));
     }
 }

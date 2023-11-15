@@ -39,14 +39,13 @@ public class SeguidorController implements SeguidorApi {
     @Override
     @PostMapping
     @ResponseStatus(CREATED)
-    public void seguir(@RequestParam("idSeguido") final UUID idSeguido) {
-        seguidoresService.seguir(idSeguido);
+    public UsuarioResponse seguir(@RequestParam("idSeguido") final UUID idSeguido) {
+        return seguidoresService.seguir(idSeguido);
     }
 
     @Override
     @DeleteMapping
-    @ResponseStatus(NO_CONTENT)
-    public void remover(@RequestParam("idSeguido") final UUID idSeguido) {
-        seguidoresService.removerSeguidor(idSeguido);
+    public UsuarioResponse remover(@RequestParam("idSeguido") final UUID idSeguido) {
+        return seguidoresService.removerSeguidor(idSeguido);
     }
 }
