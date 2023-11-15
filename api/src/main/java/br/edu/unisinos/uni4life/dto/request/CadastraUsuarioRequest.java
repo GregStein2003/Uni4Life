@@ -65,7 +65,7 @@ public final class CadastraUsuarioRequest implements Serializable {
 
     // Campos opcionais:
 
-    @ApiModelProperty(value = "Imagem codificada em Base 64")
+    @ApiModelProperty(value = "Imagem do usuário codificada em Base64")
     private final String imagem;
 
     @Override

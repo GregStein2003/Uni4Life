@@ -59,8 +59,7 @@ public final class UsuarioResponse implements Serializable {
     @ApiModelProperty(value = "Flag booleana caso o usuário consultado é seguido pelo usuário autenticado",
         example = "true", allowableValues = "true, false")
     private Boolean seguido;
-		
-    @JsonInclude(Include.NON_NULL)
+
     @ApiModelProperty(value = "Imagem do usuário em Base64")
     private final String imagem;
 

@@ -1,6 +1,7 @@
 package br.edu.unisinos.uni4life.service.support;
 
 import static java.lang.String.format;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,7 +24,13 @@ public class StorageService {
     @Value("${storage.path}")
     private String storagePath;
 
-    public String salvar(final String arquivoBase64)  {
+    private final MessageService messageService;
+
+    public String salvar(final String arquivoBase64) {
+        if (isBlank(arquivoBase64)) {
+            return null;
+        }
+
         final byte[] arquivoBytes = Base64.getDecoder().decode(arquivoBase64);
         final String nomeArquivo = UUID.nameUUIDFromBytes(arquivoBytes)
             .toString();
@@ -47,6 +54,10 @@ public class StorageService {
 
     public String consultar(final String nomeArquivo) {
         log.debug("Consultando arquivo: {}", nomeArquivo);
+
+        if (isBlank(nomeArquivo)) {
+            return null;
+        }
 
         final Path path = Paths.get(String.format("%s%s", storagePath, nomeArquivo));
         if (Files.notExists(path)) {

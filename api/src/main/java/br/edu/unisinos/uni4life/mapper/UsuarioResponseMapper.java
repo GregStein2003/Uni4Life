@@ -4,14 +4,13 @@ import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 import br.edu.unisinos.uni4life.domain.entity.UsuarioEntity;
 import br.edu.unisinos.uni4life.dto.response.UsuarioResponse;
 
 public class UsuarioResponseMapper {
 
-    public UsuarioResponse apply(final UsuarioEntity entity) {
+    public UsuarioResponse apply(final UsuarioEntity entity, final String imagemBase64) {
         if (isNull(entity)) {
             return null;
         }
@@ -26,16 +25,16 @@ public class UsuarioResponseMapper {
             .tipoConta(entity.getTipo())
             .segmento(entity.getSegmento())
             .seguidores(entity.getQuantidadeSeguidores())
+            .imagem(isNotBlank(imagemBase64) ? imagemBase64 : null)
             .build();
     }
 
-    public UsuarioResponse apply(final Map<String, Object> tuple) {
-        if (isNull(tuple)) {
+    public UsuarioResponse apply(final UsuarioEntity usuario, final boolean isSeguido,
+        final String imagemBase64) {
+
+        if (isNull(usuario)) {
             return null;
         }
-
-        final UsuarioEntity usuario = (UsuarioEntity) tuple.get("usuario");
-        final boolean isSeguido = (boolean) tuple.get("seguido");
 
         return UsuarioResponse.builder()
             .id(usuario.getId())
@@ -48,11 +47,12 @@ public class UsuarioResponseMapper {
             .segmento(usuario.getSegmento())
             .seguidores(usuario.getQuantidadeSeguidores())
             .seguido(isSeguido)
+            .imagem(isNotBlank(imagemBase64) ? imagemBase64 : null)
             .build();
     }
 
     public UsuarioResponse apply(final UsuarioEntity entity,
-        final LocalDateTime dataInicioRelacionamento) {
+        final String imagemBase64, final LocalDateTime dataInicioRelacionamento) {
 
         if (isNull(entity) || isNull(dataInicioRelacionamento)) {
             return null;
@@ -69,6 +69,7 @@ public class UsuarioResponseMapper {
             .segmento(entity.getSegmento())
             .seguidores(entity.getQuantidadeSeguidores())
             .dataRelacionamento(dataInicioRelacionamento.toLocalDate())
+            .imagem(isNotBlank(imagemBase64) ? imagemBase64 : null)
             .build();
     }
 }
