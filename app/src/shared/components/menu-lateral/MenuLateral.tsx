@@ -42,6 +42,7 @@ export const MenuLateral: React.FC = () => {
 
     return (
         <>
+        
             <Drawer open={isDrawerOpen} variant={smDown ? "temporary" : "permanent"} onClose={toggleDrawerOpen} className="menuLateral">
                 <Box width="100%">
                     <List component="nav" sx={{ display: "flex", flexDirection: "column", rowGap: 1, width: "100%" }} className="menuLateralNav">

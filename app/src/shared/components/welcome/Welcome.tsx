@@ -1,15 +1,15 @@
 import * as yup from 'yup';
 import { useState } from "react";
 import { Box } from "@mui/system";
-import { AutoComplete } from "./AutoComplete";
+import "../../styles/default-styles.css"
 import Loader from "../../../images/loader.gif"
 import { useAuthContext } from '../../contexts';
 import bgLogin from "../../../images/bg-login.jpg"
 import { LayoutBaseWelcome } from "../../layouts/";
+import { Register } from "../welcome/Register"
 import { VTextField, VForm, useVForm, IVFormErrors } from "../../forms/";
 import { WelcomeService } from "../../services/api/welcome/WelcomeService";
 import { Button, Card, CardActions, CardContent, Grid, Icon, Paper, Typography } from "@mui/material";
-
 
 interface IWelcomeProps {
     children: React.ReactNode;
@@ -29,22 +29,24 @@ interface IFormRegisterData {
     tipoConta: string;
     nome: string;
     email: string;
-    registroAcademico: number;
-    dataNascimento: Date;
+    registroAcademico: string;
+    dataNascimento: string;
     telefone: string;
     senha: string;
     confirmarSenha: string;
+    imagem: string
 }
 
 const formRegisterValidationSchema: yup.Schema<IFormRegisterData> = yup.object().shape({
     nome: yup.string().required(),
     email: yup.string().email().required(),
-    dataNascimento: yup.date().required().typeError('Insira uma data válida'),
+    dataNascimento: yup.string().required(),
     telefone: yup.string().required(),
-    registroAcademico: yup.number().required(),
+    registroAcademico: yup.string().required(),
     tipoConta: yup.string().required(),
     senha: yup.string().required().min(8),
     confirmarSenha: yup.string().oneOf([yup.ref('senha'), undefined], "Senhas precisam ser iguais").required(),
+    img: yup.string().optional()
 });
 
 export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
@@ -54,15 +56,16 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
     const [isRegister, setIsRegister] = useState(false);
     const [passwordError, setPasswordError] = useState('');
     const [emailError, setEmailError] = useState('');
-    
+
+    const validationErros: IVFormErrors = {};
 
     const handleLogin = (dados: IFormLoginData) => {
         setIsLoading(true);
 
         formLoginValidationSchema.validate(dados, { abortEarly: false }).then(dadosValidados => {
             Login(dadosValidados.email, dadosValidados.senha).then(result => {
+                
               if(!!result){
-                const validationErros: IVFormErrors = {};
                 validationErros["senha"] = result;
                 formRef.current?.setErrors(validationErros);
               }
@@ -86,8 +89,18 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
 
             WelcomeService.create(dadosValidados).then(result => {
                 setIsLoading(false);
-                if(result instanceof Error){
-                    alert(result.message);
+
+                if(result.error == true){
+                    if(result.field == "email"){
+                        validationErros["email"] = result.data;
+                        formRef.current?.setErrors(validationErros);
+                    }
+
+                    if(result.field == "telefone"){
+                        validationErros["telefone"] = result.data;
+                        formRef.current?.setErrors(validationErros);
+                    }
+
                 }else {
                     alert("Cadastro realizado com sucesso");
                     setIsRegister(false)
@@ -117,6 +130,8 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
                             width: "100%",
                             objectFit: "contain",
                             position:"absolute",
+                            backgroundRepeat: "no-repeat",
+                            backgroundSize: "cover",
                             opacity:".8",
                             zIndex: 1
                         }}>
@@ -171,103 +186,7 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
                         )}
 
                         {isRegister && (
-                            <VForm ref={formRef} onSubmit={handleRegister} style={{height: "100%"}}>
-                                <Typography variant='h3' align='center'>Cadastre-se</Typography>
-                                <CardContent>
-                                    <Box display='flex' alignContent="center" flexDirection='column' gap={2}>
-                                        <VTextField 
-                                            label="Nome do usuário: "
-                                            required
-                                            name="nome"
-                                            fullWidth
-                                            disabled={isLoading} 
-                                        />
-
-                                        <VTextField
-                                            label="Email: " 
-                                            name="email"
-                                            required 
-                                            fullWidth 
-                                            disabled={isLoading} 
-                                        />
-
-                                        <VTextField
-                                            label="Registro Acadêmico: " 
-                                            name="registroAcademico"
-                                            required 
-                                            fullWidth 
-                                            disabled={isLoading} 
-                                        />
-
-                                        <Grid container item direction="row" spacing={2}>
-                                                <Grid item xs={12} sm={6}>
-                                                    <VTextField
-                                                        label="DD/MM/AAAA" 
-                                                        name="dataNascimento"
-                                                        required
-                                                        fullWidth 
-                                                        disabled={isLoading} 
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={12} sm={6}>
-                                                    <VTextField
-                                                        label="(DD)XXXXX-XXXX" 
-                                                        required
-                                                        name="telefone"
-                                                        fullWidth 
-                                                        disabled={isLoading} 
-                                                    />
-                                                </Grid>
-
-                                                <Grid item xs={12}>
-                                                    <AutoComplete />
-                                                </Grid>
-
-                                                <Grid item xs={12} sm={6}>
-                                                    <VTextField
-                                                        label="Senha: "
-                                                        required 
-                                                        name="senha"
-                                                        fullWidth 
-                                                        type='password'
-                                                        disabled={isLoading} 
-                                                    />
-                                                </Grid>
-
-                                                <Grid item xs={12} sm={6}>
-                                                    <VTextField
-                                                        label="Confirme sua senha: "
-                                                        required 
-                                                        name="confirmarSenha"
-                                                        fullWidth 
-                                                        type='password'
-                                                        disabled={isLoading} 
-                                                    />
-                                                </Grid>
-
-                                        </Grid>
-                                    </Box>
-                                </CardContent>
-                                <CardActions sx={{ paddingX: 2, display: "block" }}>
-                                    <Box width='100%' display='flex' justifyContent='center'>
-                                        <Button
-                                            sx={{ bgcolor:"#262d63", '&:hover': { backgroundColor: "#214099" } }}
-                                            fullWidth
-                                            variant="contained"
-                                            disabled={false}
-                                            onClick={submit}
-                                            endIcon=""
-                                        >
-                                        Cadastrar
-                                        </Button>
-                                    </Box>
-                                </CardActions>
-
-                                <Box width="100%" paddingX={2} display="flex" alignItems="center" columnGap={1} sx={{ cursor: "pointer" }} onClick={() => setIsRegister(false)}>
-                                    <Icon sx={{ fontSize: "4rem" }}>keyboard_backspace</Icon>
-                                    <Typography variant='body1' fontWeight="700">Voltar</Typography>
-                                </Box>
-                            </VForm>
+                            <Register formRef={formRef} handleAction={handleRegister} isLoading={isLoading} setIsRegister={setIsRegister} submit={submit} register={false} />
                         )}
 
                     </Card>

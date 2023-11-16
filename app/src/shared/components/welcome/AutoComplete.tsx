@@ -2,8 +2,14 @@ import { Autocomplete, TextField } from "@mui/material"
 import { useField } from "@unform/core";
 import { useEffect, useMemo, useState } from "react";
 
-export const AutoComplete: React.FC = () => {
-    const { fieldName, registerField, defaultValue, error, clearError } = useField("tipoConta");
+interface IAutoCompleteProps {
+    name: string;
+    label: string;
+    options: any;
+}
+
+export const AutoComplete: React.FC<IAutoCompleteProps> = ({ name, label, options }) => {
+    const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
     const [selectedType, setSelectedType] = useState<any>(defaultValue);
 
     useEffect(() => {
@@ -29,7 +35,7 @@ export const AutoComplete: React.FC = () => {
             loadingText="Carregando..."
             disablePortal
             value={autoCompleteSelectedOption}
-            options={["Privado", "Público"]}
+            options={options}
             onChange={(_, newValue) => {
                 setSelectedType(newValue);
                 clearError();
@@ -40,7 +46,7 @@ export const AutoComplete: React.FC = () => {
                     {...params}
                     error={!!error}
                     helperText={error}
-                    label="Tipo: "
+                    label={label}
                     required
                 />
             )}

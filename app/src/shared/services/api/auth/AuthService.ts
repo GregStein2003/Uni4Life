@@ -16,7 +16,7 @@ const auth = async (email: string, password: string): Promise<IAuth | Error> => 
         formData.append("grant_type", "password")
         formData.append("scope", "app")
 
-        const { data } = await api.post(`${Environment.urlBase}/oauth/token`, formData, {
+        const { data } = await api.post(`${Environment.URL_BASE}/oauth/token`, formData, {
             headers: {
                 'Authorization' : 'Basic dW5pNGxpZmUtY2xpZW50OnVuaTRsaWZlLXNlY3JldA=='
             },

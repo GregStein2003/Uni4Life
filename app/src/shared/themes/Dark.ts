@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import { yellow, cyan, grey } from "@mui/material/colors";
+import { cyan, grey, brown } from "@mui/material/colors";
 
 export let DarkTheme = createTheme({
     palette: {
@@ -18,7 +18,7 @@ export let DarkTheme = createTheme({
         },
         background: {
             default: "#202124",
-            paper: "rgb(244, 244, 244)",
+            paper: "#1F2129",
         }
     },
     typography: {
@@ -57,7 +57,14 @@ export let DarkTheme = createTheme({
             textDecoration: "underline",
             fontFamily: "Roboto",
             fontWeight: 400,
-            color: "#000000",
+            color: "#FFFFFF",
+            cursor: "pointer"
+        },
+        caption: { 
+            fontSize: "1.4rem",
+            fontFamily: "Roboto",
+            fontWeight: 400,
+            color: "#FFFFFF",
             cursor: "pointer"
         }
     }
@@ -76,16 +83,20 @@ DarkTheme = createTheme(DarkTheme, {
         MuiDrawer: {
             styleOverrides: {
                 paper: {
-                    position: 'absolute',
+                    position: 'relative',
                     border: "none",
-                    height: "auto",
-                    width: "100%"
+                    width: "100%",
+                    backgroundColor: "#F6F6F6"
                 },
             },
         },
         MuiListItemButton: {
             styleOverrides: {
               root: {
+                "&.Mui-selected": {
+                    backgroundColor: "#214099",
+                    '&:hover': { backgroundColor: "#214099" },
+                },
                 backgroundColor: DarkTheme.palette.background.default,
                 borderRadius: '40px',
                 '&:hover': { backgroundColor: "#214099" },

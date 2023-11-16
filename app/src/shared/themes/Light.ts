@@ -49,14 +49,20 @@ export let LightTheme = createTheme({
         },
         body2: { // <a></a>
             fontSize: "1.4rem",
-            paddingBottom: ".6rem",
+            paddingBottom: ".3rem",
             textDecoration: "underline",
             fontFamily: "Roboto",
             fontWeight: 400,
             color: "#000000",
             cursor: "pointer"
         },
-        
+        caption: { 
+            fontSize: "1.4rem",
+            fontFamily: "Roboto",
+            fontWeight: 400,
+            color: "#000000",
+            cursor: "pointer"
+        }
     }
 });
 
@@ -73,7 +79,7 @@ LightTheme = createTheme(LightTheme, {
         MuiDrawer: {
             styleOverrides: {
                 paper: {
-                    position: 'absolute',
+                    position: 'relative',
                     border: "none",
                     width: "100%"
                 },
