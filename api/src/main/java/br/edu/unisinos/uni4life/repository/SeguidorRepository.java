@@ -16,6 +16,8 @@ public interface SeguidorRepository extends JpaRepository<SeguidorEntity, UUID> 
 
     boolean existsSeguidorEntityBySeguidorAndSeguido(final UsuarioEntity seguidor, final UsuarioEntity seguido);
 
+    boolean existsSeguidorEntityBySeguidorIdAndSeguido(final UUID idSeguidor, final UsuarioEntity seguido);
+
     @Query("SELECT s FROM SeguidorEntity s WHERE s.seguido.id = :idSeguido")
     Page<SeguidorEntity> findAllSeguidoresByIdSeguido(@Param("idSeguido") final UUID idSeguido,
         final Pageable paginacao);

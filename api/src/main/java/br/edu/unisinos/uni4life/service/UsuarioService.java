@@ -64,13 +64,14 @@ public class UsuarioService {
     }
 
     public Page<UsuarioResponse> consultarUsuariosParaSeguir(final Pageable paginacao) {
-        log.info("Consultando os usuários que usuário. ID : {} não estao seguindo", getUsuarioPrincipalId());
+        final UUID idUsuarioLogado = getUsuarioPrincipalId();
+        log.info("Consultando os usuários que usuário. ID : {} não estao seguindo", idUsuarioLogado);
 
-        return repository.findUsuariosToFollow(getUsuarioPrincipalId(), paginacao)
+
+        return repository.findUsuariosToFollow(idUsuarioLogado, paginacao)
             .map(entity -> {
-                final UsuarioEntity usuario = (UsuarioEntity) entity.get("usuario");
-                final boolean isSeguido = (boolean) entity.get("seguido");
-                return new UsuarioResponseMapper().apply(usuario, isSeguido, getImagemBase64(usuario));
+                final boolean isSeguido = segueUsuario(idUsuarioLogado, entity);
+                return new UsuarioResponseMapper().apply(entity, isSeguido, getImagemBase64(entity));
             });
     }
 
@@ -96,6 +97,11 @@ public class UsuarioService {
         final UsuarioEntity entity = repository.save(mapper.apply(request, arquivo));
 
         return new UsuarioResponseMapper().apply(entity, request.getImagem());
+    }
+
+    // TODO: Ver se é possível validar se é possível fazer em uma consula
+    private boolean segueUsuario(final UUID idSeguidor, final UsuarioEntity seguido) {
+        return seguidorRepository.existsSeguidorEntityBySeguidorIdAndSeguido(idSeguidor, seguido);
     }
 
     private String getImagemBase64(final UsuarioEntity usuario) {
