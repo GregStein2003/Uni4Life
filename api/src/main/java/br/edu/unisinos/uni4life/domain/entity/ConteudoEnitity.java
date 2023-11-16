@@ -58,6 +58,9 @@ public class ConteudoEnitity implements Serializable {
     @Column(name = "LINK_CONTEUDO")
     private String link;
 
+    @Column(name = "IMAGEM_CONTEUDO")
+    private String imagem;
+
     @Column(name = "DATA_ATUALIZACAO")
     private LocalDateTime dataAtualizacao;
 

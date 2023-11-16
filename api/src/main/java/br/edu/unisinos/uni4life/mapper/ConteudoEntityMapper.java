@@ -2,16 +2,14 @@ package br.edu.unisinos.uni4life.mapper;
 
 import static java.util.Objects.isNull;
 
-import java.util.function.BiFunction;
-
 import br.edu.unisinos.uni4life.domain.entity.ConteudoEnitity;
 import br.edu.unisinos.uni4life.domain.entity.UsuarioEntity;
 import br.edu.unisinos.uni4life.dto.request.CadastraConteudoRequest;
 
-public class ConteudoEntityMapper implements BiFunction<CadastraConteudoRequest, UsuarioEntity, ConteudoEnitity> {
+public class ConteudoEntityMapper {
 
-    @Override
-    public ConteudoEnitity apply(final CadastraConteudoRequest request, final UsuarioEntity autor) {
+    public ConteudoEnitity apply(final CadastraConteudoRequest request,
+        final UsuarioEntity autor, final String arquivoImagem) {
         if (isNull(request)) {
             return null;
         }
@@ -23,6 +21,7 @@ public class ConteudoEntityMapper implements BiFunction<CadastraConteudoRequest,
         enitity.setTipo(request.getTipoConteudo());
         enitity.setLink(request.getLink());
         enitity.setAutor(autor);
+        enitity.setImagem(arquivoImagem);
 
         return enitity;
     }

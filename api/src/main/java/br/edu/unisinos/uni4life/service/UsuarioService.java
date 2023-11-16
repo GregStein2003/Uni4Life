@@ -7,8 +7,10 @@ import static br.edu.unisinos.uni4life.domain.enumeration.Message.EMAIL_CADASTRA
 import static br.edu.unisinos.uni4life.domain.enumeration.Message.IMAGEM_USUARIO_INVALIDA;
 import static br.edu.unisinos.uni4life.domain.enumeration.Message.USUARIO_NAO_ENCONTRADO;
 import static br.edu.unisinos.uni4life.security.SecurityContextHelper.getUsuarioPrincipalId;
+import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -43,10 +45,12 @@ public class UsuarioService {
     public UsuarioResponse consultar(final UUID idUsuario) {
         log.info("Consultando usuário com ID: {}", idUsuario);
 
-        return repository.findById(idUsuario)
+        final UUID idConsulta = nonNull(idUsuario) ? idUsuario : getUsuarioPrincipalId();
+
+        return repository.findById(idConsulta)
             .map(entity -> new UsuarioResponseMapper().apply(entity, getImagemBase64(entity)))
             .orElseThrow(() -> {
-                log.warn("Usuário não encontrado com ID: {}", idUsuario);
+                log.warn("Usuário não encontrado com ID: {}", idConsulta);
                 return new ClientErrorException(NOT_FOUND, messageService.get(USUARIO_NAO_ENCONTRADO));
             });
     }
@@ -83,9 +87,9 @@ public class UsuarioService {
 
         try {
             arquivo = storageService.salvar(request.getImagem());
-        } catch (final ClientErrorException exception) {
+        } catch (final Exception exception) {
             log.debug("Erro para salvar imagem: {}", exception.getMessage());
-            throw new ClientErrorException(VALIDATION, messageService.get(IMAGEM_USUARIO_INVALIDA));
+            throw new ClientErrorException(VALIDATION, messageService.get(IMAGEM_USUARIO_INVALIDA), "imagem");
         }
 
         final UsuarioEntityMapper mapper = new UsuarioEntityMapper();

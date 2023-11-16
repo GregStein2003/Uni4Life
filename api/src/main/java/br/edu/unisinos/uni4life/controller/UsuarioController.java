@@ -33,7 +33,7 @@ public class UsuarioController implements UsuarioApi {
 
     @Override
     @GetMapping
-    public UsuarioResponse consultar(@RequestParam("id") @NotBlank final UUID idUsuario) {
+    public UsuarioResponse consultar(@RequestParam(value = "id", required = false) @NotBlank final UUID idUsuario) {
         return usuarioService.consultar(idUsuario);
     }
 

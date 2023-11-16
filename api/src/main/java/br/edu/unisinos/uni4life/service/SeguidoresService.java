@@ -16,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.edu.unisinos.uni4life.domain.entity.SeguidorEntity;
 import br.edu.unisinos.uni4life.domain.entity.UsuarioEntity;
 import br.edu.unisinos.uni4life.dto.response.UsuarioResponse;
 import br.edu.unisinos.uni4life.exception.ClientErrorException;
@@ -66,7 +65,7 @@ public class SeguidoresService {
         repository.save(new SeguidorEntityMapper().apply(seguido, seguidor));
         atualizarUsuario(1L, idSeguido);
 
-        return new UsuarioResponseMapper().apply(getUsuario(idSeguido), true, getImagemBase64(seguido));
+        return new UsuarioResponseMapper().apply(getUsuario(idSeguido, +1), true, getImagemBase64(seguido));
     }
 
     @Transactional
@@ -84,13 +83,19 @@ public class SeguidoresService {
         return new UsuarioResponseMapper().apply(seguido, false, getImagemBase64(seguido));
     }
 
-    public boolean isSeguindo(final UsuarioEntity seguido, final UsuarioEntity seguidor) {
+    private boolean isSeguindo(final UsuarioEntity seguido, final UsuarioEntity seguidor) {
         return repository.existsSeguidorEntityBySeguidorAndSeguido(seguidor, seguido);
     }
 
     // TODO: Pensar no uso de triggers no banco
     private void atualizarUsuario(final Long quantidadeSeguidores, final UUID idSeguido) {
         usuarioRepository.updateQuantidadeSeguidoresById(quantidadeSeguidores, idSeguido);
+    }
+
+    private UsuarioEntity getUsuario(final UUID idUsuario, final int seguidor) {
+        final UsuarioEntity entity = getUsuario(idUsuario);
+        entity.addSeguidor(seguidor);
+        return entity;
     }
 
     private UsuarioEntity getUsuario(final UUID idUsuario) {
@@ -100,6 +105,7 @@ public class SeguidoresService {
                 return new ClientErrorException(NOT_FOUND, messageService.get(USUARIO_NAO_ENCONTRADO));
             });
     }
+
 
     private String getImagemBase64(final UsuarioEntity entity) {
         final String nomeImagem = ofNullable(entity)

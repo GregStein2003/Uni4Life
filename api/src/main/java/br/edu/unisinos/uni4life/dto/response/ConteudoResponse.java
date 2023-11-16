@@ -44,6 +44,9 @@ public final class ConteudoResponse implements Serializable {
     @ApiModelProperty(value = "Data de atualização do conteúdo", example = "2023-06-21")
     private final LocalDate dataAtualizacao;
 
+    @ApiModelProperty(value = "Imagem do conteúdo em Base64")
+    private final String imagem;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, SHORT_PREFIX_STYLE)

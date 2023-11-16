@@ -76,7 +76,7 @@ public class UsuarioEntity implements Serializable {
     @Column(name = "QUANTIADE_SEGUIDROES", nullable = false)
     private Long quantidadeSeguidores;
 
-		@Column(name = "IMAGEM_USUARIO")
+    @Column(name = "IMAGEM_USUARIO")
     private String imagem;
 
     @OneToMany(mappedBy = "autor", fetch = FetchType.EAGER)
@@ -87,6 +87,9 @@ public class UsuarioEntity implements Serializable {
         this.quantidadeSeguidores = 0L;
     }
 
+    public void addSeguidor(final int seguidor) {
+        this.quantidadeSeguidores = this.quantidadeSeguidores + seguidor;
+    }
 
     @Override
     public final boolean equals(final Object o) {

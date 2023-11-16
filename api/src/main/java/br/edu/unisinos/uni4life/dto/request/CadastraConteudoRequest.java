@@ -35,8 +35,11 @@ public final class CadastraConteudoRequest implements Serializable {
         allowableValues = "LIVRO, VIDEO, PODCAST, MUSICA, TEXTO")
     private final TipoConteudo tipoConteudo;
 
-    @ApiModelProperty(value = "Link HTTP do conteúdo para ser cadastrado", required = true)
+    @ApiModelProperty(value = "Link HTTP do conteúdo para ser cadastrado")
     private final String link;
+
+    @ApiModelProperty(value = "Imagem do conteúdo em Base64.")
+    private String imagem;
 
     @Override
     public String toString() {
