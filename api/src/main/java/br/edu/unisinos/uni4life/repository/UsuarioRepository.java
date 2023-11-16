@@ -21,12 +21,8 @@ public interface UsuarioRepository extends CrudRepository<UsuarioEntity, UUID> {
     Optional<UsuarioEntity> findByEmail(final String email);
 
     @Transactional(readOnly = true)
-    @Query("SELECT U as usuario, "
-        + "CASE WHEN S.seguidor.id = :idUsuario THEN true ELSE false END AS seguido "
-        + "FROM UsuarioEntity U "
-        + "LEFT JOIN SeguidorEntity S ON U.id = S.seguido.id "
-        + "WHERE (S.seguidor.id = :idUsuario OR S.seguidor.id IS NULL) AND U.id != :idUsuario")
-    Page<Map<String, Object>> findUsuariosToFollow(@Param("idUsuario") final UUID idUsuario, final Pageable paginacao);
+    @Query("SELECT U FROM UsuarioEntity U WHERE U.id != :idUsuario")
+    Page<UsuarioEntity> findUsuariosToFollow(@Param("idUsuario") final UUID idUsuario, final Pageable paginacao);
 
 
     @Modifying
