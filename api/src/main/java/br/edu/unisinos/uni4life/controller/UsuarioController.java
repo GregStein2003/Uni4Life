@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.unisinos.uni4life.domain.Pagina;
+import br.edu.unisinos.uni4life.dto.request.AtualizaUsuarioRequest;
 import br.edu.unisinos.uni4life.dto.request.CadastraUsuarioRequest;
 import br.edu.unisinos.uni4life.dto.response.UsuarioResponse;
 import br.edu.unisinos.uni4life.service.UsuarioService;
@@ -60,5 +62,11 @@ public class UsuarioController implements UsuarioApi {
     @ResponseStatus(CREATED)
     public UsuarioResponse cadastrar(@RequestBody @Valid final CadastraUsuarioRequest request) {
         return usuarioService.cadastrar(request);
+    }
+
+    @Override
+    @PatchMapping
+    public UsuarioResponse atualizar(@RequestBody final AtualizaUsuarioRequest request) {
+        return usuarioService.atualizar(request);
     }
 }

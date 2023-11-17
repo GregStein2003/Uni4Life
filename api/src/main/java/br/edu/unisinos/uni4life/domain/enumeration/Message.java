@@ -17,6 +17,10 @@ public enum Message {
 
     //E
     EMAIL_CADASTRADO("email.cadastrado"),
+    EMAIL_INVALIDO("email.invalido"),
+
+    //F
+    FALHA_INESPERADA("falha.inesperada"),
 
     //I
     IMAGEM_INVALIDA("imagem.invalida"),
@@ -29,11 +33,14 @@ public enum Message {
     //N
     NAO_PERMITIDO_SEGUIR_VOCE("nao-permitido.seguir.voce"),
 
+    //R
+    REQUISICAO_INVALIDA("requisicao.invalida"),
+
     //S
     SERVICO_NAO_IMPLEMENADO("servico.nao-implementado"),
 
-    //F
-    FALHA_INESPERADA("falha.inesperada"),
+    //T
+    TELEFONE_INVALIDO("telefone.invalido"),
 
     //U
     USUARIIO_JA_SEGUIDO("usuario.ja.seguido"),

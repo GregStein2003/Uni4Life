@@ -1,4 +1,4 @@
-package br.edu.unisinos.uni4life.validator;
+package br.edu.unisinos.uni4life.validator.constraint;
 
 import java.util.Arrays;
 

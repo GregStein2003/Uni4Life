@@ -1,4 +1,4 @@
-package br.edu.unisinos.uni4life.validator;
+package br.edu.unisinos.uni4life.validator.constraint;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -15,15 +15,15 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import br.edu.unisinos.uni4life.domain.enumeration.usuario.TipoConta;
+import br.edu.unisinos.uni4life.domain.enumeration.conteudo.TipoConteudo;
 
 @Target(value = {METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = TipoContaValidator.class)
-public @interface TipoContaValido {
-    TipoConta[] anyOf();
-    String message() default "{tipo-conta.invalido}";
+@Constraint(validatedBy = TipoConteudoValidator.class)
+public @interface TipoConteudoValido {
+    TipoConteudo[] anyOf();
+    String message() default "{tipo-conteudo.invalido}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
