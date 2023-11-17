@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import br.edu.unisinos.uni4life.domain.enumeration.conteudo.TipoConteudo;
-import br.edu.unisinos.uni4life.validator.TipoConteudoValido;
+import br.edu.unisinos.uni4life.validator.constraint.TipoConteudoValido;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;

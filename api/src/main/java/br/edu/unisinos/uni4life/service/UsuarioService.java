@@ -5,12 +5,13 @@ import static br.edu.unisinos.uni4life.domain.enumeration.ErrorType.NOT_FOUND;
 import static br.edu.unisinos.uni4life.domain.enumeration.ErrorType.VALIDATION;
 import static br.edu.unisinos.uni4life.domain.enumeration.Message.EMAIL_CADASTRADO;
 import static br.edu.unisinos.uni4life.domain.enumeration.Message.IMAGEM_USUARIO_INVALIDA;
+import static br.edu.unisinos.uni4life.domain.enumeration.Message.REQUISICAO_INVALIDA;
 import static br.edu.unisinos.uni4life.domain.enumeration.Message.USUARIO_NAO_ENCONTRADO;
 import static br.edu.unisinos.uni4life.security.SecurityContextHelper.getUsuarioPrincipalId;
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 
-import java.util.Objects;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.edu.unisinos.uni4life.domain.entity.UsuarioEntity;
+import br.edu.unisinos.uni4life.dto.request.AtualizaUsuarioRequest;
 import br.edu.unisinos.uni4life.dto.request.CadastraUsuarioRequest;
 import br.edu.unisinos.uni4life.dto.response.UsuarioResponse;
 import br.edu.unisinos.uni4life.exception.ClientErrorException;
@@ -27,6 +29,7 @@ import br.edu.unisinos.uni4life.mapper.UsuarioEntityMapper;
 import br.edu.unisinos.uni4life.mapper.UsuarioResponseMapper;
 import br.edu.unisinos.uni4life.repository.SeguidorRepository;
 import br.edu.unisinos.uni4life.repository.UsuarioRepository;
+import br.edu.unisinos.uni4life.service.support.AtualizaEntityService;
 import br.edu.unisinos.uni4life.service.support.MessageService;
 import br.edu.unisinos.uni4life.service.support.StorageService;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +42,7 @@ public class UsuarioService {
 
     private final MessageService messageService;
     private final StorageService storageService;
+    private final AtualizaEntityService atualizaEntityService;
     private final UsuarioRepository repository;
     private final SeguidorRepository seguidorRepository;
 
@@ -67,7 +71,6 @@ public class UsuarioService {
         final UUID idUsuarioLogado = getUsuarioPrincipalId();
         log.info("Consultando os usuários que usuário. ID : {} não estao seguindo", idUsuarioLogado);
 
-
         return repository.findUsuariosToFollow(idUsuarioLogado, paginacao)
             .map(entity -> {
                 final boolean isSeguido = segueUsuario(idUsuarioLogado, entity);
@@ -84,14 +87,7 @@ public class UsuarioService {
             throw new ClientErrorException(BUSINESS, messageService.get(EMAIL_CADASTRADO), "email");
         }
 
-        final String arquivo;
-
-        try {
-            arquivo = storageService.salvar(request.getImagem());
-        } catch (final Exception exception) {
-            log.debug("Erro para salvar imagem: {}", exception.getMessage());
-            throw new ClientErrorException(VALIDATION, messageService.get(IMAGEM_USUARIO_INVALIDA), "imagem");
-        }
+        final String arquivo = salvarImagem(request.getImagem());
 
         final UsuarioEntityMapper mapper = new UsuarioEntityMapper();
         final UsuarioEntity entity = repository.save(mapper.apply(request, arquivo));
@@ -104,11 +100,48 @@ public class UsuarioService {
         return seguidorRepository.existsSeguidorEntityBySeguidorIdAndSeguido(idSeguidor, seguido);
     }
 
+
+    @Transactional
+    public UsuarioResponse atualizar(final AtualizaUsuarioRequest request) {
+        if (isNull(request)) {
+            log.warn("Requisição inválida");
+            throw new ClientErrorException(VALIDATION, messageService.get(REQUISICAO_INVALIDA));
+        }
+
+        final UsuarioEntity entity = repository.findById(getUsuarioPrincipalId())
+            .orElseThrow(() -> {
+                log.warn("Usuário com ID: {} não econtrado", getUsuarioPrincipalId());
+                return new ClientErrorException(VALIDATION, messageService.get(USUARIO_NAO_ENCONTRADO));
+            });
+
+        ofNullable(request.getEmail())
+            .filter(repository::existsByEmail)
+            .ifPresent(email -> {
+                log.warn("Esse endereço de email já foi cadastrado anteriormente.");
+                throw new ClientErrorException(BUSINESS, messageService.get(EMAIL_CADASTRADO), "email");
+            });
+
+        final UsuarioEntity novaEntity = atualizaEntityService.atualizar(request, entity);
+
+        repository.save(novaEntity);
+
+        return new UsuarioResponseMapper().apply(novaEntity, getImagemBase64(novaEntity));
+    }
+
     private String getImagemBase64(final UsuarioEntity usuario) {
         final String nomeImagem = ofNullable(usuario)
             .map(UsuarioEntity::getImagem)
             .orElse(null);
 
         return storageService.consultar(nomeImagem);
+    }
+
+    private String salvarImagem(final String imagemBase64) {
+        try {
+            return storageService.salvar(imagemBase64);
+        } catch (final Exception exception) {
+            log.debug("Erro para salvar imagem: {}", exception.getMessage());
+            throw new ClientErrorException(VALIDATION, messageService.get(IMAGEM_USUARIO_INVALIDA), "imagem");
+        }
     }
 }

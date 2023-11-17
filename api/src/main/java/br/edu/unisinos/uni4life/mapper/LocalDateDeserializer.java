@@ -5,9 +5,9 @@ import static br.edu.unisinos.uni4life.domain.enumeration.ErrorType.VALIDATION;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.io.IOException;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import org.springframework.stereotype.Component;
 
@@ -16,8 +16,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-import br.edu.unisinos.uni4life.domain.enumeration.CamposData;
-import br.edu.unisinos.uni4life.domain.enumeration.ErrorType;
 import br.edu.unisinos.uni4life.exception.ClientErrorException;
 import br.edu.unisinos.uni4life.service.support.MessageService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,6 @@ public class LocalDateDeserializer extends JsonDeserializer<LocalDate> {
 
     private static final String DATE_PATTERN = "yyyy-MM-dd";
     private final MessageService messageService;
-
 
     @Override
     public LocalDate deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
@@ -43,7 +40,7 @@ public class LocalDateDeserializer extends JsonDeserializer<LocalDate> {
 
         try {
             return LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
-        } catch (final DateTimeException exception) {
+        } catch (final DateTimeParseException exception) {
             final String mensagem = messageService.get(retornaMensagemErro(campo));
             throw new ClientErrorException(VALIDATION, mensagem);
         }
