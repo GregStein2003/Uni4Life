@@ -95,12 +95,6 @@ public class UsuarioService {
         return new UsuarioResponseMapper().apply(entity, request.getImagem());
     }
 
-    // TODO: Ver se é possível validar se é possível fazer em uma consula
-    private boolean segueUsuario(final UUID idSeguidor, final UsuarioEntity seguido) {
-        return seguidorRepository.existsSeguidorEntityBySeguidorIdAndSeguido(idSeguidor, seguido);
-    }
-
-
     @Transactional
     public UsuarioResponse atualizar(final AtualizaUsuarioRequest request) {
         if (isNull(request)) {
@@ -115,7 +109,7 @@ public class UsuarioService {
             });
 
         ofNullable(request.getEmail())
-            .filter(repository::existsByEmail)
+            .filter(email -> repository.existsByEmailAndIdIsNot(email, getUsuarioPrincipalId()))
             .ifPresent(email -> {
                 log.warn("Esse endereço de email já foi cadastrado anteriormente.");
                 throw new ClientErrorException(BUSINESS, messageService.get(EMAIL_CADASTRADO), "email");
@@ -126,6 +120,12 @@ public class UsuarioService {
         repository.save(novaEntity);
 
         return new UsuarioResponseMapper().apply(novaEntity, getImagemBase64(novaEntity));
+    }
+
+
+    // TODO: Ver se é possível validar se é possível fazer em uma consula
+    private boolean segueUsuario(final UUID idSeguidor, final UsuarioEntity seguido) {
+        return seguidorRepository.existsSeguidorEntityBySeguidorIdAndSeguido(idSeguidor, seguido);
     }
 
     private String getImagemBase64(final UsuarioEntity usuario) {

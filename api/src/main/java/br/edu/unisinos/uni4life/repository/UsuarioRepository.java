@@ -18,6 +18,8 @@ public interface UsuarioRepository extends CrudRepository<UsuarioEntity, UUID> {
 
     boolean existsByEmail(final String email);
 
+    boolean existsByEmailAndIdIsNot(final String email, final UUID uuid);
+
     Optional<UsuarioEntity> findByEmail(final String email);
 
     @Transactional(readOnly = true)
