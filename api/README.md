@@ -94,15 +94,26 @@ de comando:
 docker run -d --name uni4lifeApi -p {ALGUMA_PORTA}:8080 frostte32/uni4life
 ```
 
-A aplicação também se conecta a um banco de dados, caso queira  também é possível definir um `{BD_USERNAME}` e uma 
-`{BD_PASSWORD}` customizada para o container atráves de variavéis de ambiente. Exemplo de comando
+A aplicação também se conecta um banco de dados MySQL, caso queira  também é possível definir um `{BD_USERNAME}`, 
+`{BD_PASSWORD}`, `{BD_PORT}` e `{BD_HOST}` customizada para o container atráves de variavéis de ambiente. 
+Exemplo de 
+comando
 
 ```docker
-docker run -d --name uni4lifeApi -e BD_USERNAME={BD_USERNAME} -e BD_PASSWORD={BD_PASSWORD} -p {ALGUMA_PORTA}:8080 
-frostte32/uni4life
+docker run -d --name uni4lifeApi -e BD_USERNAME={BD_USERNAME} -e BD_PASSWORD={BD_PASSWORD} -e BD_PORT={BD_PORT}
+-e BD_HOST={BD_HOST} -p {ALGUMA_PORTA}:8080 frostte32/uni4life
 ```
 
-Lembrando que isso é opcional, caso não inforamdo o valor padrão do usuário e da senha vai ser `root` e `root`
+Lembrando que isso é opcional, caso não inforamdo o valor padrão do usuário, senha, porta e host vai ser 
+respectivamente: `root`, `root`, `3306` e `host.docker.internal`. Sendo o último valor o DNS padrão do docker para o 
+endereço IP da máquina host que esta rodando a docker engine.
+
+Caso queira usar o banco de dados em memória o H2 Database invés do MySQL, irá ser necessário passar na criação do 
+container a variavél de ambiente `{PROFILE}` com o valor `local` como no comando abaixo:
+
+```docker
+docker run -d --name uni4lifeApi -e PROFILE=local -p {ALGUMA_PORTA}:8080 frostte32/uni4life
+```
 
 #### Passo 3: Atualizando a imagem (Opcional)
 

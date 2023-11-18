@@ -38,6 +38,9 @@ public final class ConteudoResponse implements Serializable {
     @ApiModelProperty(value = "Nome do autor do conteúdo", example = "Fulano da Silva")
     private final String autor;
 
+    @ApiModelProperty(value = "Imagem do autor do conteúdo")
+    private final String imagemAutor;
+
     @ApiModelProperty(value = "Data de criação do conteúdo", example = "2023-05-23")
     private final LocalDate dataCriacao;
 

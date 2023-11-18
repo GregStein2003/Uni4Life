@@ -10,6 +10,8 @@ FROM eclipse-temurin:17-jre-jammy
 WORKDIR /api
 RUN mkdir -p "/api/storage"
 ENV STORAGE_PATH "/api/storage/"
+ENV BD_HOST "host.docker.internal"
+ENV PROFILE "default"
 EXPOSE 8080
 COPY --from=builder /api/target/*.jar /api/*.jar
-ENTRYPOINT ["java", "-jar", "/api/*.jar" ]
+ENTRYPOINT "java" "-jar" "/api/*.jar" "--spring.profiles.active=$PROFILE"

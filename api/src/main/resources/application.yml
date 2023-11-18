@@ -33,23 +33,15 @@ spring:
     generator:
       IGNORE_UNKNOWN: true
     time-zone: America/Sao_Paulo
-  h2:
-    console:
-      enabled: true
-      path: /banco
-      settings:
-        trace: false
-        web-allow-others: true
   datasource:
     continue-on-error: true
-    driverClassName: org.h2.Driver
     username: ${BD_USERNAME:root}
     password: ${BD_PASSWORD:root}
-    url: jdbc:h2:mem:uni4life
+    url: jdbc:mysql://${BD_HOST:localhost}:${BD_PORT:3306}/uni4life?serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
 
 springfox:
   documentation:

@@ -11,10 +11,10 @@ import java.util.function.Function;
 import br.edu.unisinos.uni4life.domain.entity.ConteudoEnitity;
 import br.edu.unisinos.uni4life.dto.response.ConteudoResponse;
 
-public class ConteudoResponseMapper implements BiFunction<ConteudoEnitity, String, ConteudoResponse> {
+public class ConteudoResponseMapper {
 
-    @Override
-    public ConteudoResponse apply(final ConteudoEnitity enitity, final String imagemBase64) {
+    public ConteudoResponse apply(final ConteudoEnitity enitity,
+        final String imagemConteudoBase64, final String imagemAutorBase64) {
         if (isNull(enitity)) {
             return null;
         }
@@ -23,6 +23,7 @@ public class ConteudoResponseMapper implements BiFunction<ConteudoEnitity, Strin
             .id(enitity.getId())
             .descricao(enitity.getDescricao())
             .autor(enitity.getAutor().getNome())
+            .imagemAutor(isNotBlank(imagemAutorBase64) ? imagemAutorBase64 : null)
             .titulo(enitity.getTitulo())
             .link(enitity.getLink())
             .tipoConteudo(enitity.getTipo())
@@ -32,7 +33,7 @@ public class ConteudoResponseMapper implements BiFunction<ConteudoEnitity, Strin
             .dataAtualizacao(ofNullable(enitity.getDataAtualizacao())
                 .map(LocalDateTime::toLocalDate)
                 .orElse(null))
-            .imagem(isNotBlank(imagemBase64) ? imagemBase64 : null)
+            .imagem(isNotBlank(imagemConteudoBase64) ? imagemConteudoBase64 : null)
             .build();
     }
 }
