@@ -34,7 +34,7 @@ import lombok.Setter;
 @Table(name = "USUARIOS")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioEntity implements Serializable {
+public class UsuarioEntity implements ImageEntity {
 
     private static final long serialVersionUID = -400085195788052650L;
 
@@ -73,7 +73,7 @@ public class UsuarioEntity implements Serializable {
     @Column(name = "SEGMENTO", nullable = false)
     private Segmento segmento;
 
-    @Column(name = "QUANTIADE_SEGUIDROES", nullable = false)
+    @Column(name = "QUANTIDADE_SEGUIDORES", nullable = false)
     private Long quantidadeSeguidores;
 
     @Column(name = "IMAGEM_USUARIO")

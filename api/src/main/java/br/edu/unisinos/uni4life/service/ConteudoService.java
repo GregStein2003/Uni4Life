@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.edu.unisinos.uni4life.domain.entity.ConteudoEnitity;
+import br.edu.unisinos.uni4life.domain.entity.ImageEntity;
 import br.edu.unisinos.uni4life.domain.entity.UsuarioEntity;
 import br.edu.unisinos.uni4life.dto.request.CadastraConteudoRequest;
 import br.edu.unisinos.uni4life.dto.response.ConteudoResponse;
@@ -48,7 +49,8 @@ public class ConteudoService {
         log.info("Consultando conteúdo com ID: {}", idConteudo);
 
         return repository.findById(idConteudo)
-            .map(enitity -> new ConteudoResponseMapper().apply(enitity, getImagemBase64(enitity)))
+            .map(enitity -> new ConteudoResponseMapper().apply(enitity,
+                getImagemBase64(enitity), getImagemBase64(enitity.getAutor())))
             .orElseThrow(() -> {
                 log.warn("Conteúdo não encontrado com ID: {}", idConteudo);
                 return new ClientErrorException(NOT_FOUND, messageService.get(CONTEUDO_NAO_ENCONTRADO));
@@ -60,7 +62,8 @@ public class ConteudoService {
         log.info("Consultando conteúdo do usuário: {}", idAutor);
 
         return repository.findByAutorId(idAutor, paginacao)
-            .map(enitity -> new ConteudoResponseMapper().apply(enitity, getImagemBase64(enitity)));
+            .map(enitity -> new ConteudoResponseMapper().apply(enitity, getImagemBase64(enitity),
+                getImagemBase64(enitity.getAutor())));
 
     }
 
@@ -68,7 +71,8 @@ public class ConteudoService {
         log.info("Consultando conteúdos seguidos pelo usuário: {}", getUsuarioPrincipalId());
 
         return repository.findConteudoSeguido(getUsuarioPrincipalId(), paginacao)
-            .map(enitity -> new ConteudoResponseMapper().apply(enitity, getImagemBase64(enitity)));
+            .map(enitity -> new ConteudoResponseMapper().apply(enitity,
+                getImagemBase64(enitity), getImagemBase64(enitity.getAutor())));
     }
 
     @Transactional
@@ -93,7 +97,7 @@ public class ConteudoService {
 
         final ConteudoEnitity enitity = repository.save(CONTEUDO_MAPPER.apply(request, autor, arquivo));
 
-        return new ConteudoResponseMapper().apply(enitity, request.getImagem());
+        return new ConteudoResponseMapper().apply(enitity, request.getImagem(), getImagemBase64(autor));
     }
 
     private UsuarioEntity getAutor(final UUID idAutor) {
@@ -109,9 +113,9 @@ public class ConteudoService {
     }
 
 
-    private String getImagemBase64(final ConteudoEnitity usuario) {
-        final String nomeImagem = ofNullable(usuario)
-            .map(ConteudoEnitity::getImagem)
+    private String getImagemBase64(final ImageEntity entity) {
+        final String nomeImagem = ofNullable(entity)
+            .map(ImageEntity::getImagem)
             .orElse(null);
 
         return storageService.consultar(nomeImagem);

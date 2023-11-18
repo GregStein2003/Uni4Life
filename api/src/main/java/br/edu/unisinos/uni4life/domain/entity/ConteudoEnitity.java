@@ -29,7 +29,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "CONTEUDOS")
-public class ConteudoEnitity implements Serializable {
+public class ConteudoEnitity implements ImageEntity {
 
     private static final long serialVersionUID = 2241129717025406613L;
 
