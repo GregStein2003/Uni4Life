@@ -6,8 +6,8 @@ import Loader from "../../images/loader.gif"
 import { useAppDrawerContext } from "../contexts";
 import Brand from "../../images/brand-unisinos.png"
 import { MenuLateral } from "../components/menu-lateral/MenuLateral";
-import { Typography, useTheme, Toolbar, IconButton, Icon } from "@mui/material";
-import { FollowContainer } from "../components/followContainer/FollowContainer";
+import { Typography, useTheme, IconButton, Icon } from "@mui/material";
+import { FollowItem } from "../components";
 
 interface ILayoutBaseDefaultProps {
     children: React.ReactNode;
@@ -38,27 +38,19 @@ export const LayoutBaseDefault: React.FC<ILayoutBaseDefaultProps> = ({ children 
                         <MenuLateral />
                     </Box>
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={5} sx={{ paddingLeft: 0 }} className="teste">
                     {children}
                 </Grid>
                 <Grid item xs={12} md={4} display="flex" alignItems="flex-start" justifyContent="center">
-                    <FollowContainer />
+                    <FollowItem  />
                 </Grid>
             </Grid>
 
-                {isLoading && (
-                    <Box sx={{ width: "100vw", height: "100vh", bgcolor: "white", position: "fixed", opacity: ".7", zIndex: 1000, top: 0, display: "grid", placeItems: "center" }}>
-                        <img src={Loader} alt="Loader" />
-                    </Box>
-                )}
-            {/* <footer style={{height: theme.spacing(12), backgroundColor: theme.palette.background.default}}>
-                <Toolbar sx={{ display: "flex", justifyContent: "center", height: "100%" }}>
-                    <img src={Brand} alt="Logo Unisinos" style={{height: "100%"}}/>
-                    <Typography variant="body1" color="white" textAlign="center">
-                    &copy; {new Date().getFullYear()} Uni4Life
-                    </Typography>
-                </Toolbar>
-            </footer> */}
+            {isLoading && (
+                <Box sx={{ width: "100vw", height: "100vh", bgcolor: "white", position: "fixed", opacity: ".7", zIndex: 1000, top: 0, display: "grid", placeItems: "center" }}>
+                    <img src={Loader} alt="Loader" />
+                </Box>
+            )}
         </>
     )
 }

@@ -1,54 +1,81 @@
 import * as yup from 'yup';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IVFormErrors, useVForm } from "../../forms";
 import { LayoutBaseDefault } from "../../layouts/";
-import { Register } from "../welcome/Register";
+import { DialogProfile } from "../dialogProfile/DialogProfile";
+import { ProfileService } from "../../services/api/profile/ProfileService";
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, Icon } from '@mui/material';
+import { IFormPostReturn, ContentService } from '../../services/api/formPost/FormPost';
+import { BoxContent } from '..';
 
-interface IFormRegisterData {
-    tipoConta: string;
-    nome: string;
-    email: string;
-    registroAcademico: string;
-    dataNascimento: string;
-    telefone: string;
-    senha: string;
-    confirmarSenha: string;
-    imagem: string
-}
 
-const formRegisterValidationSchema: yup.Schema<IFormRegisterData> = yup.object().shape({
-    nome: yup.string().required(),
-    email: yup.string().email().required(),
-    dataNascimento: yup.string().required(),
-    telefone: yup.string().required(),
-    registroAcademico: yup.string().required(),
-    tipoConta: yup.string().required(),
-    senha: yup.string().required().min(8),
-    confirmarSenha: yup.string().oneOf([yup.ref('senha'), undefined], "Senhas precisam ser iguais").required(),
-    img: yup.string().optional()
-});
 
 export const Profile: React.FC = () => {
-    const { formRef, submit } = useVForm();
+    const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const validationErros: IVFormErrors = {};
+    const [ShowNoContent, setShowNoContent] = useState(false);
+    const [posts, setPosts] = useState<IFormPostReturn[]>([]);
+    const handleClickOpen = () => { setOpen(true) };
+    const handleClose = () => { setOpen(false) };
 
-    const handleUpdate = (dados: any) => {
-        formRegisterValidationSchema.validate(dados, { abortEarly: false }).then(dadosValidados => {
-            console.log(dadosValidados)
-        }).catch((error: yup.ValidationError) => {
-            const validationErros: IVFormErrors = {};
-            error.inner.forEach(error => {
-                if (!error.path) return 
-                validationErros[error.path] = error.message;
+    useEffect(() => {
+        setIsLoading(true);
+            ContentService.getByMyUser().then(result => {
+                if(result instanceof Error){
+                    setPosts([]);
+                    console.log(result.message)
+                }else {
+                    setPosts(result.conteudo);
+                }
+                setIsLoading(false);
+                setShowNoContent(true);
             });
-            formRef.current?.setErrors(validationErros);
-        });
-    }
+    }, [open]);
+
+    const buttonSubmit = {
+        backgroundColor: "#262d63",
+        display: "flex",
+        justifyContent: "flex-end",
+        marginLeft: "auto",
+        '&:hover': {
+          backgroundColor: '#262d63',
+        }
+      };
 
     return (
         <LayoutBaseDefault>
-            <Register formRef={formRef} handleAction={handleUpdate} isLoading={isLoading} setIsRegister={() => {}} submit={submit} update={true} />
+
+            <Button 
+                variant="contained" 
+                sx={buttonSubmit} 
+                endIcon=
+                {<Icon>update</Icon>} 
+                onClick={() => handleClickOpen()}
+            >
+                Meus Dados
+            </Button>
+
+            <DialogProfile openState={open} eventOpenState={setOpen} handleClose={handleClose} />
+
+            <Box marginTop={3}>
+                {posts.map(post => ( 
+                    <BoxContent 
+                        key={post.id}
+                        id={post.id}
+                        autor={post.autor}
+                        imagemAutor={post.imagemAutor}
+                        imagem={post.imagem}
+                        data={post.dataCriacao}
+                        link={post.link}
+                        tipoConteudo={post.tipoConteudo}
+                        titulo={post.titulo}
+                        descricao={post.descricao}
+                    />
+                ))}
+            </Box>
+
+
         </LayoutBaseDefault>
     )
 }

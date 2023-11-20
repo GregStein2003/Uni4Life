@@ -43,7 +43,8 @@ export let DarkTheme = createTheme({
         body1: { // <p></p>
             fontSize: "1.6rem",
             fontFamily: "Roboto",
-            fontWeight: 400
+            fontWeight: 400,
+            width: "100%"
         },
         button: {
             fontSize: "1.6rem",

@@ -1,13 +1,13 @@
-import { useField } from "@unform/core";
+import { useField, FormHandles } from "@unform/core";
 import { useEffect, useRef, useState } from "react";
 import {  Avatar, Grid, Icon, TextField, TextFieldProps} from "@mui/material";
 
 type TVTextFieldProps = TextFieldProps & {
     name: string;
+    formRef: FormHandles | null;
 }
 
-export const VTextUpload: React.FC<TVTextFieldProps> = ({ name, ...rest }) => {
-    const inputRef = useRef(null);
+export const VTextUpload: React.FC<TVTextFieldProps> = ({ name, formRef, ...rest }) => {
     const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
     const [value, setValue] = useState(defaultValue || "");
     const [imgValue, setImgValue] = useState("");
@@ -56,17 +56,17 @@ export const VTextUpload: React.FC<TVTextFieldProps> = ({ name, ...rest }) => {
                         endAdornment: (
                             <>
                                 <input
-                                type="file"
-                                accept="image/png, image/gif, image/jpeg"
-                                onChange={onChange}
-                                style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    left: 0,
-                                    opacity: 0,
-                                }}
+                                    type="file"
+                                    accept="image/png, image/gif, image/jpeg"
+                                    onChange={onChange}
+                                    style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        left: 0,
+                                        opacity: 0,
+                                    }}
                                 />
                                 <Icon sx={{ fontSize: "3rem", color: "#262d63"}}>cloud_upload</Icon>
                             </>

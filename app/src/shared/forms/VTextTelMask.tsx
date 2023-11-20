@@ -1,30 +1,24 @@
-import { useField } from "@unform/core";
+import { useField, FormHandles } from "@unform/core";
 import ReactInputMask from "react-input-mask";
+import { TextFieldProps } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
-import { Icon, InputAdornment, TextField, TextFieldProps } from "@mui/material";
 
 type TVTextFieldProps = TextFieldProps & {
     name: string;
+    formRef: FormHandles;
 }
 
-export const VTextTelMask: React.FC<TVTextFieldProps> = ({ name, ...rest }) => {
-    const inputRef = useRef(null);
+export const VTextTelMask: React.FC<TVTextFieldProps> = ({ name, formRef, ...rest }) => {
     const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
     const [value, setValue] = useState(defaultValue || "");
 
     useEffect(() => {
       registerField({
         name: fieldName,
-        ref: inputRef.current,
-        path: "value",
-        setValue(ref, value) {
-          ref.setInputValue(value);
-        },
-        clearValue(ref) {
-          ref.setInputValue("");
-        }
+        getValue: () => value,
+        setValue: (_, newValue) => setValue(newValue),
       });
-    }, [fieldName, registerField, value]);
+    }, [registerField, fieldName, value]);
 
     return (
       <>
@@ -32,11 +26,12 @@ export const VTextTelMask: React.FC<TVTextFieldProps> = ({ name, ...rest }) => {
           mask="(99)99999-9999"
           maskPlaceholder={null}
           placeholder={`Telefone: `}
-          ref={inputRef}
+          ref={formRef}
           defaultValue={defaultValue}
           className={!!error ? "default-style__input default-style__input--error" : "default-style__input" }
           onChange={e => {setValue(e.target.value); rest.onChange?.(e);}}
           onKeyDown={(e) => { () => error && clearError(); rest.onKeyDown?.(e); clearError()}}
+          value={value}
           {...rest}
         />
 

@@ -24,15 +24,14 @@ let formValidationSchema = yup.object({
   titulo: yup.string().required(),
   tipoConteudo: yup.string().required(),
   link: yup.string().when('tipoConteudo', { is: "Podcast", then: (schema) => schema.required()}).when('tipoConteudo', {
-    is: "Imagem",
-    then: (schema) => schema.required(),
-  }),
-  imagem: yup.string().when('tipoConteudo', {
-    is: "Imagem",
+    is: "Video",
     then: (schema) => schema.required(),
   }),
   descricao: yup.string().when('tipoConteudo', { is: "Livro", then: (schema) => schema.required()}).when('tipoConteudo', {
     is: "Texto",
+    then: (schema) => schema.required(),
+  }).when('tipoConteudo', {
+    is: "Video",
     then: (schema) => schema.required(),
   }),
 });
@@ -99,7 +98,7 @@ export const DialogPost: React.FC<IDialogPostProps> = ({ openState = false, even
                   helperText=""
                 />
 
-                <AutoComplete name="tipoConteudo" label='Categoria: ' options={["Livro", "Podcast", "Imagem", "Texto"]}/>
+                <AutoComplete name="tipoConteudo" label='Categoria: ' options={["Livro", "Podcast", "Video", "Texto"]}/>
 
                 <VTextField 
                   label="Link: "

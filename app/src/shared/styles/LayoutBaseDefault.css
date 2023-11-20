@@ -5,7 +5,7 @@
     height: calc(100vh - 10rem);
     flex: 1;
     max-width: 1536px;
-    width: 95%;
+    width: 100% !important;
     margin: 30px auto !important;
     padding: 0 30px;
 }

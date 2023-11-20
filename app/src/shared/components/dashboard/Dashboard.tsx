@@ -6,10 +6,10 @@ import { BoxContent } from "../boxContent/BoxContent";
 import { Icon, Button, Box, Paper, Typography } from "@mui/material"
 import { IFormPostReturn, ContentService } from "../../services/api/formPost/FormPost";
 
-
 export const Dashboard: React.FC = () => {
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [ShowNoContent, setShowNoContent] = useState(false);
 
     const [posts, setPosts] = useState<IFormPostReturn[]>([]);
 
@@ -27,6 +27,7 @@ export const Dashboard: React.FC = () => {
                     setPosts(result.conteudo);
                 }
                 setIsLoading(false);
+                setShowNoContent(true);
             });
     }, [open]);
 
@@ -53,11 +54,11 @@ export const Dashboard: React.FC = () => {
         </Button>
 
         {posts.map(post => ( 
-            
             <BoxContent 
                 key={post.id}
                 id={post.id}
                 autor={post.autor}
+                imagemAutor={post.imagemAutor}
                 imagem={post.imagem}
                 data={post.dataCriacao}
                 link={post.link}
@@ -67,7 +68,7 @@ export const Dashboard: React.FC = () => {
             />
         ))}
          
-         {posts.length == 0 && (
+         {posts.length == 0 && ShowNoContent && (
             <Box
                 position="relative"
                 gap={1} 

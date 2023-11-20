@@ -55,30 +55,4 @@ const create = async (dados: Omit<IUsuario, "id">): Promise<number | any> => {
     }
 };
 
-const getUser = async (): Promise<IUsuario | any> => {
-    try{
-        const query = `${Environment.URL_BASE}/usuarios`;
-
-        const { data } = await api.get(query, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }); 
-
-        if(data) {
-            return data;
-        }
-
-        return new Error("Erro ao consultar usuario.");
-
-    }catch(error){
-        return {
-            "error": true,
-            "data": error.response.data.message,
-            "field": error.response.data.field
-        }
-
-    }
-};
-
-export const WelcomeService = { create, getUser };
+export const WelcomeService = { create };

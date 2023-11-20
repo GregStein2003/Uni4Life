@@ -116,6 +116,10 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
         });
     }
 
+    const setFormRegister = () => {
+        setIsRegister(true);
+    }  
+
     if (isAuthenticated) return (
         <>{children}</>
       );
@@ -179,14 +183,14 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
                                         </Button>
                                     </Box>
                                     <Box display="flex" justifyContent="center" alignItems="center" marginTop={2}>
-                                        <Typography variant='body2' onClick={() => setIsRegister(true)}>Cadastre-se</Typography>
+                                        <Typography variant='body2' onClick={setFormRegister}>Cadastre-se</Typography>
                                     </Box>
                                 </CardActions>
                             </VForm>
                         )}
 
                         {isRegister && (
-                            <Register formRef={formRef} handleAction={handleRegister} isLoading={isLoading} setIsRegister={setIsRegister} submit={submit} register={false} />
+                            <Register formRef={formRef} handleAction={handleRegister} isLoading={isLoading} setIsRegister={setIsRegister} submit={submit} register={false} handleClose={() => {}}/>
                         )}
 
                     </Card>

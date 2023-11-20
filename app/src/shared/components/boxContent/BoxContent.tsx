@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 interface IBoxContentProps {
     id: string;
     autor: string;
+    imagemAutor: string;
     data: string;
     descricao: string;
     link?: string;
@@ -12,9 +13,9 @@ interface IBoxContentProps {
     imagem: string;
 }
 
-export const BoxContent: React.FC<IBoxContentProps> = ({ id, autor, data, descricao, link, tipoConteudo, titulo, imagem  }) => {
+export const BoxContent: React.FC<IBoxContentProps> = ({ id, autor, imagemAutor, data, descricao, link, tipoConteudo, titulo, imagem  }) => {
     imagem = imagem ? "data:image/png;base64,"+imagem : "";
-    link = link ? link : "javascript:void(0)";
+    imagemAutor = imagemAutor ? "data:image/png;base64,"+imagemAutor : "";
 
     const iconTypeContent = () => {
         switch (tipoConteudo) {
@@ -22,8 +23,8 @@ export const BoxContent: React.FC<IBoxContentProps> = ({ id, autor, data, descri
             return "auto_stories";
           case 'PODCAST':
             return "keyboard_voice";
-          case 'IMAGEM':
-            return "panorama";
+          case 'VIDEO':
+            return "ondemand_video";
         case 'TEXTO':
             return "text_fields";
           default:
@@ -41,11 +42,10 @@ export const BoxContent: React.FC<IBoxContentProps> = ({ id, autor, data, descri
                 component={Paper}
                 marginBottom={2}
             >                
-
                 <Box display="flex" justifyContent="space-between" alignContent="flex-start">
                     <Box display="flex" alignItems="center" justifyContent="center" columnGap={1} marginBottom={1}>
                         <Box >
-                            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" sx={{ width: 50, height: 50 }}>{autor[0]}</Avatar>
+                            <Avatar alt="Remy Sharp" src={imagemAutor} sx={{ width: 50, height: 50 }}>{autor[0]}</Avatar>
                         </Box>
                         <Box>
                             <span className="dashboard__name">{autor}</span>
@@ -72,21 +72,24 @@ export const BoxContent: React.FC<IBoxContentProps> = ({ id, autor, data, descri
                     <Typography gutterBottom variant="h3">
                         {titulo}
                     </Typography>
-                    <Typography variant="body1">
+                    <Typography variant="body1" paddingBottom={2}>
                         {descricao}
                     </Typography>
 
-                    <a href={link} target="_blank">
-                        {imagem && (
-                            <CardMedia
-                                component="img"
-                                height="100%"
-                                sx={{ objectFit: "contain", maxHeight: "300px" }}
-                                image={imagem}
-                                alt="Imagem"
-                            />
-                        )}
-                    </a>
+
+                    {imagem && (
+                        <CardMedia
+                            component="img"
+                            height="100%"
+                            sx={{ objectFit: "contain", maxHeight: "300px" }}
+                            image={imagem}
+                            alt="Imagem"
+                        />
+                    )}
+
+                    {tipoConteudo == "Video" && link && (
+                        <iframe width="100%" height="300" src={link} title={titulo} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    )}
                 </Box>
 
                 <Box className="dashboard__icons-container">

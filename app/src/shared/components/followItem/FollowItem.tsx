@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import Loader from "../../../images/loader.gif"
-import { Avatar, Box, Button, Icon, Typography } from "@mui/material"
+import { Avatar, Box, Button, Icon, Paper, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { TFollowTotalCount, IFollowReturn, FollowService } from "../../services/api/follow/FollowService";
-
-
+import { useNavigate } from 'react-router-dom';
 interface IFollowItemProps {
     dataNascimento?: Date;
     dataRelacionamento?: Date;
@@ -17,28 +16,26 @@ interface IFollowItemProps {
     tipoConta?: string;
     seguido: string;
     imagem?: string;
-    updateList: (() => void) | undefined;
 }
 
-const ListItem: React.FC<IFollowItemProps> = ({ id, nome, registroAcademico, seguidores, seguido, imagem, updateList }) => {
-  const [isFollowed, setIsFollowed] = useState<any>(seguido);
+const ListItem: React.FC<IFollowItemProps> = ({ id, nome, registroAcademico, seguidores, seguido, imagem }) => {
+  const navigate = useNavigate();
   const nameUser = nome.split(" ");
   const abrevName = nameUser[0] + " " + nameUser[1];
   const avatarImage = "data:image/png;base64,"+imagem;
 
   const addFollow = (id: string ) => {
-    FollowService.add(id).then(result => {
-      setIsFollowed(true)
-      updateList(`true ${id}`);
+    FollowService.add(id).then(() => {
+      navigate("/teste")
+
     }).catch(error => {
         console.log("Error: ", error)
     })
 }
 
   const removeFollow = (id: string ) => {
-    FollowService.remove(id).then(result => {
-      setIsFollowed(false);
-      updateList(`false ${id}`);
+    FollowService.remove(id).then(() => {
+      navigate("/teste")
     }).catch(error => {
         console.log("Error: ", error)
     })
@@ -56,34 +53,35 @@ const ListItem: React.FC<IFollowItemProps> = ({ id, nome, registroAcademico, seg
   };
 
   return (
-    <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ cursor: "pointer" }} rowGap={1}>
-      <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
-        <Avatar alt="Remy Sharp" src={avatarImage} sx={{ width: 56, height: 56 }}/>
-        <Box>
-          <Typography variant="h5" fontWeight="700">{abrevName}</Typography>
-          <Typography variant="body2">@{registroAcademico}</Typography>
-          <Typography variant="caption">Seguidores: <strong>{seguidores}</strong></Typography>
+      <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ cursor: "pointer" }} rowGap={1}>
+        <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
+          <Avatar alt="Remy Sharp" src={avatarImage} sx={{ width: 56, height: 56 }}>{nome[0]}</Avatar>
+          <Box>
+            <Typography variant="h5" fontWeight="700">{abrevName}</Typography>
+            <Typography variant="body2">@{registroAcademico}</Typography>
+            <Typography variant="caption">Seguidores: <strong>{seguidores}</strong></Typography>
+          </Box>
         </Box>
-      </Box>
-      
-        {isFollowed && (
-          <Button variant="contained" sx={buttonSubmit} onClick={() => removeFollow(id)} endIcon={<Icon>bookmark</Icon>}>
-            Seguido
-          </Button>
-        )}
+        
+          {seguido && (
+            <Button variant="contained" sx={buttonSubmit} onClick={() => removeFollow(id)} endIcon={<Icon>bookmark</Icon>}>
+              Seguido
+            </Button>
+          )}
 
-        {!isFollowed && (
-          <Button variant="contained" sx={buttonSubmit} onClick={() => addFollow(id)} endIcon={<Icon>bookmark_border</Icon>}>
-            Seguir
-          </Button>
-        )}
-    </Box>
+          {!seguido && (
+            <Button variant="contained" sx={buttonSubmit} onClick={() => addFollow(id)} endIcon={<Icon>bookmark_border</Icon>}>
+              Seguir
+            </Button>
+          )}
+      </Box>
   )
 }
 
 export const FollowItem: React.FC = () => {
+  const theme = useTheme();
+  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   const [followers, setFollowers] = useState<TFollowTotalCount[] | IFollowReturn | any>([]);
-  const [updateList, setUpdateList] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -96,15 +94,23 @@ export const FollowItem: React.FC = () => {
           }
           setIsLoading(false);
       });
-  }, [updateList]);
+  }, []);
 
-  const triggerUpdateList = (value) => {
-    setUpdateList(value)
+  if(followers.length == 0){
+    return (
+      <></>
+    )
   }
 
-    return (
+  return (
       <>
-          <Box display="flex" flexDirection="column" gap={1} marginTop={1}>
+          <Box
+            padding={2}
+            width={mdDown ? "100%" : "75%"}
+            component={Paper}
+            elevation={3}
+          >
+            <Box display="flex" flexDirection="column" gap={1} marginTop={1}>
             {followers.map((follow: { id: string; seguido: string; nome: string; imagem: string; registroAcademico: string; seguidores: number }) => ( 
               <ListItem
                 key={follow.id}
@@ -114,11 +120,12 @@ export const FollowItem: React.FC = () => {
                 imagem={follow.imagem}
                 registroAcademico={follow.registroAcademico}
                 seguidores={follow.seguidores}
-                updateList={triggerUpdateList}
               />
             ))}
           </Box>
-          {isLoading && (
+        </Box>
+
+        {isLoading && (
             <Box sx={{ width: "100vw", height: "100vh", bgcolor: "white", position: "fixed", opacity: ".7", zIndex: 99999, top: 0, left: 0, display: "grid", placeItems: "center" }}>
                 <img src={Loader} alt="Loader" />
             </Box>

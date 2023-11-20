@@ -12,6 +12,7 @@ export interface IFormPost {
 export interface IFormPostReturn {
     autor: string;
     dataAtualizacao?: string;
+    imagemAutor: string;
     dataCriacao: string;
     descricao: string;
     link: string;
@@ -61,11 +62,9 @@ const create = async (dados: IFormPost): Promise<IFormPostReturn | Error> => {
     }
 };
 
-const getAll = async (page = 1): Promise<TFormPostTotalCount | Error> => {
+const getAll = async (): Promise<TFormPostTotalCount | Error> => {
     try{        
-        const query = `${Environment.URL_BASE}/conteudos/meu`;
-
-
+        const query = `${Environment.URL_BASE}/conteudos/seguidos`;
 
         const { data } = await api.get(query, {
             headers: {
@@ -85,12 +84,39 @@ const getAll = async (page = 1): Promise<TFormPostTotalCount | Error> => {
             "ultimaPagina": true
         };
 
-        return new Error("Erro ao listar cidades");
+        return new Error("Erro ao listar posts");
 
     }catch(error){
-        console.error(error);
-        return new Error((error as { message: string }).message || `${error}: Erro ao listar cidades.`);
+        return new Error((error as { message: string }).message || `${error}: Erro ao listar posts.`);
     }
 };
 
-export const ContentService = { create, getAll };
+const getByMyUser = async (): Promise<TFormPostTotalCount | Error> => {
+    try{        
+        const query = `${Environment.URL_BASE}/conteudos/meu`;
+
+        const { data } = await api.get(query, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }); 
+
+        if(data) {
+            return data;
+        }
+
+        return { 
+            "conteudo": [],
+            "numeroPagina": 0,
+            "elementosPagina": 0,
+            "elementosTotais": 0,
+            "ultimaPagina": true
+        };
+
+
+    }catch(error){
+        return new Error((error as { message: string }).message || `${error}: Erro ao listar meus posts.`);
+    }
+};
+
+export const ContentService = { create, getAll, getByMyUser };

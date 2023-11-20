@@ -1,32 +1,25 @@
-import { useField } from "@unform/core";
+import { useField, FormHandles } from "@unform/core";
 import ReactInputMask from "react-input-mask";
 import { useEffect, useState, useRef } from "react";
-import { TextFieldProps } from "@mui/material";
+import { TextField, TextFieldProps } from "@mui/material";
 
 type TVTextFieldProps = TextFieldProps & {
     name: string;
-    setValueUpdate: string | null;
+    formRef: FormHandles;
 }
 
-export const VTextDateMask: React.FC<TVTextFieldProps> = ({ name, setValueUpdate = null, ...rest }) => {
-    const inputRef = useRef(null);
+export const VTextDateMask: React.FC<TVTextFieldProps> = ({ name, formRef, ...rest }) => {
     const { fieldName, registerField, defaultValue, error, clearError } = useField(name);
     const [value, setValue] = useState(defaultValue || "");
 
     useEffect(() => {
       registerField({
         name: fieldName,
-        ref: inputRef.current,
-        path: "value",
-        setValue(ref, value) {
-          ref.setInputValue(value);
-        },
-        clearValue(ref) {
-          ref.setInputValue("");
-        }
+        getValue: () => value,
+        setValue: (_, newValue) => setValue(newValue),
       });
 
-    }, [fieldName, registerField]);
+    }, [fieldName, registerField, value]);
 
     return (
       <>
@@ -34,11 +27,12 @@ export const VTextDateMask: React.FC<TVTextFieldProps> = ({ name, setValueUpdate
           mask="99/99/9999" 
           maskPlaceholder={null}
           placeholder={`Data de nascimento: `}
-          ref={inputRef}
+          ref={formRef}
           defaultValue={defaultValue}
           className={!!error ? "default-style__input default-style__input--error" : "default-style__input" }
           onChange={e => {setValue(e.target.value); rest.onChange?.(e);}}
           onKeyDown={(e) => { () => error && clearError(); rest.onKeyDown?.(e); clearError()}}
+          value={value}
           {...rest}
         />
 
