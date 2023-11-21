@@ -3,10 +3,6 @@
   --color-primary-item-hover: "#214099";
 }
 
-.menuLateral {
-  width: 325px;
-}
-
 .menuLateralItem {
   max-width: 250px;
   background: var(--color-primary-item);
@@ -37,6 +33,11 @@
 }
 
 @media screen and (max-width: 992px){
+
+  .menuLateral {
+    width: 325px;
+  }
+
   .css-oyough-MuiPaper-root-MuiDrawer-paper {
     background-color: #F6F6F6;
   }

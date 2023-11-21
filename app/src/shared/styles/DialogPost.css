@@ -1,0 +1,23 @@
+.form-add-post {
+    min-width: 500px;
+}
+
+@media screen and (max-width: 500px){
+    .form-add-post {
+        min-width: 300px;
+    }
+
+    .form-add-post__container-buttons {
+        flex-direction: column-reverse;
+        row-gap: 10px;
+    }
+
+    .form-add-post__container-buttons button {
+        width: 100%;
+    }
+
+    .css-1gnjeiv-MuiDialogActions-root>:not(style)~:not(style) {
+        margin-left: 0 !important;
+    }
+    
+}

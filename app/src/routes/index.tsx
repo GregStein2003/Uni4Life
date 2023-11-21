@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Home } from "../shared/components";
+import { Home, Profile } from "../shared/components";
 import { useAppDrawerContext } from "../shared/contexts";
 import { Routes, Route, Navigate } from "react-router-dom";
 
@@ -23,7 +23,7 @@ export const AppRoutes = () => {
             {
                 label: "Perfil",
                 icon: "account_circle",
-                path: "/perfil"
+                path: "/profile"
             },
             {
                 label: "Configurações",
@@ -36,6 +36,7 @@ export const AppRoutes = () => {
     return (
         <Routes>
             <Route path="/" element={<Home />}/>
+            <Route path="/profile" element={<Profile />}/>
             <Route path="*" element={<Navigate to="/"/>}/>
         </Routes>
     );

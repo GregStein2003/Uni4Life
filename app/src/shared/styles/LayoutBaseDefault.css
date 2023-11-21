@@ -1,3 +1,15 @@
+.grid-wrapper {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(300px, 1fr) 1fr 1fr;
+    height: calc(100vh - 10rem);
+    flex: 1;
+    max-width: 1536px;
+    width: 100% !important;
+    margin: 30px auto !important;
+    padding: 0 30px;
+}
+
 .layout-base-default__menu-container {
     display: block;
     position: absolute;
