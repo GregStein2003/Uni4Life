@@ -4,6 +4,7 @@ import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -19,7 +20,7 @@ public final class ConteudoResponse implements Serializable {
 
     private static final long serialVersionUID = -2581146118352825343L;
 
-    @ApiModelProperty(value = "Identificador do conteúdo", example = "Meu Título")
+    @ApiModelProperty(value = "Identificador do conteúdo", example = "2d963fbc-c346-4133-a218-ef5e7bcc2071")
     private final UUID id;
 
     @ApiModelProperty(value = "Título do conteúdo", example = "Meu Título")
@@ -55,6 +56,9 @@ public final class ConteudoResponse implements Serializable {
 
     @ApiModelProperty(value = "Imagem do conteúdo em Base64")
     private final String imagem;
+
+    @ApiModelProperty(value = "Comentários do conteúdo")
+    private final List<ComentarioResponse> comentarios;
 
     @Override
     public String toString() {

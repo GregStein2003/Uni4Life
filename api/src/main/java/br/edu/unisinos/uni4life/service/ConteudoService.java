@@ -13,6 +13,7 @@ import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -27,6 +28,7 @@ import br.edu.unisinos.uni4life.dto.InformacoesExtraConteudo;
 import br.edu.unisinos.uni4life.dto.request.CadastraConteudoRequest;
 import br.edu.unisinos.uni4life.dto.response.ConteudoResponse;
 import br.edu.unisinos.uni4life.exception.ClientErrorException;
+import br.edu.unisinos.uni4life.mapper.ComentarioResponseMapper;
 import br.edu.unisinos.uni4life.mapper.ConteudoResponseMapper;
 import br.edu.unisinos.uni4life.mapper.entity.ConteudoEntityMapper;
 import br.edu.unisinos.uni4life.mapper.entity.CurtidaEntityMapper;
@@ -196,11 +198,15 @@ public class ConteudoService {
     }
 
     private InformacoesExtraConteudo construirInformacoesExtra(final ConteudoEnitity conteudo,
-        final boolean isFavorito, boolean isCurtido) {
+        final boolean isFavorito, final boolean isCurtido) {
         return InformacoesExtraConteudo.builder()
             .imagemAutorBase64(getImagemBase64(conteudo.getAutor()))
             .isFavorito(isFavorito)
             .isCurtido(isCurtido)
+            .comentarios(conteudo.getComentarios().stream()
+                .map(comentario -> new ComentarioResponseMapper()
+                    .apply(comentario, getImagemBase64(comentario.getAutor())))
+                .collect(Collectors.toList()))
             .build();
     }
 

@@ -31,7 +31,7 @@ public interface ConteudoApi {
 
     @ApiOperation(value = "Operação responsável por consultar todos os conteúdos de um usuário.",
         notes = "Operação consulta os conteúdos cadastrados pelo usuário do id informado "
-            + "na base de dados. Caso não econtre nenhum conteúdo retorna uma lista vazia. "
+            + "na base de dados. Caso não encontre nenhum conteúdo retorna uma lista vazia. "
             + "Esse endpoint é necessário estar <strong>autenticado</strong>")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Sucesso."),
@@ -46,7 +46,7 @@ public interface ConteudoApi {
         notes = "Operação consulta os conteúdos de todos os usuários seguidos pelo usuário autenticado"
             + " na base de dados. Os contéudos retornados são apenas daqueles usuários que possuem"
             + " a conta do tipo <strong>PUBLICA</strong>"
-            + " Caso não econtre nenhum conteúdo retorna uma lista vazia. "
+            + " Caso não encontre nenhum conteúdo retorna uma lista vazia. "
             + "Esse endpoint é necessário estar <strong>autenticado</strong>")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Sucesso."),
@@ -59,7 +59,7 @@ public interface ConteudoApi {
 
     @ApiOperation(value = "Operação responsável por consultar todos os conteúdos favoritados.",
         notes = "Operação consulta os conteúdos favoritados pelo usuário autenticado"
-            + " na base de dados. Caso não econtre nenhum conteúdo retorna uma lista vazia."
+            + " na base de dados. Caso não encontre nenhum conteúdo retorna uma lista vazia."
             + " Esse endpoint é necessário estar <strong>autenticado</strong>")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Sucesso."),
@@ -72,7 +72,7 @@ public interface ConteudoApi {
 
     @ApiOperation(value = "Operação responsável por consultar todos os conteúdos curtidos.",
         notes = "Operação consulta os conteúdos curtidos pelo usuário autenticado"
-            + " na base de dados. Caso não econtre nenhum conteúdo retorna uma lista vazia."
+            + " na base de dados. Caso não encontre nenhum conteúdo retorna uma lista vazia."
             + " Esse endpoint é necessário estar <strong>autenticado</strong>")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Sucesso."),

@@ -9,6 +9,7 @@ import lombok.Getter;
 public enum Message {
 
     //C
+    COMENTARIO_NAO_ENCONTRADO("comentario.nao.encontrado"),
     CONTEUDO_NAO_ENCONTRADO("conteudo.nao.encontrado"),
     CONTEUDO_JA_CURTIDO("conteudo.ja.curtido"),
     CONTEUDO_JA_FAVORITADO("conteudo.ja.favoritado"),
@@ -46,6 +47,7 @@ public enum Message {
 
     //U
     USUARIIO_JA_SEGUIDO("usuario.ja.seguido"),
+    USUARIO_NAO_AUTOR_COMENTARIO("usuario.nao.autor-comentario"),
     USUARIO_NAO_ENCONTRADO("usuario.nao.encontrado");
 
     private final String message;

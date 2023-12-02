@@ -12,31 +12,32 @@ import br.edu.unisinos.uni4life.dto.response.ConteudoResponse;
 
 public class ConteudoResponseMapper {
 
-    public ConteudoResponse apply(final ConteudoEnitity enitity, final String imagemConteudoBase64,
+    public ConteudoResponse apply(final ConteudoEnitity entity, final String imagemConteudoBase64,
         final InformacoesExtraConteudo informacoes) {
-        if (isNull(enitity) || isNull(informacoes)) {
+        if (isNull(entity) || isNull(informacoes)) {
             return null;
         }
 
         return ConteudoResponse.builder()
-            .id(enitity.getId())
-            .descricao(enitity.getDescricao())
-            .autor(enitity.getAutor().getNome())
+            .id(entity.getId())
+            .descricao(entity.getDescricao())
+            .autor(entity.getAutor().getNome())
             .imagemAutor(
                 isNotBlank(informacoes.getImagemAutorBase64()) ? informacoes.getImagemAutorBase64() : null
             )
-            .titulo(enitity.getTitulo())
-            .link(enitity.getLink())
-            .tipoConteudo(enitity.getTipo())
+            .titulo(entity.getTitulo())
+            .link(entity.getLink())
+            .tipoConteudo(entity.getTipo())
             .favoritado(informacoes.isFavorito())
             .curtido(informacoes.isCurtido())
-            .dataCriacao(ofNullable(enitity.getDataCriacao())
+            .dataCriacao(ofNullable(entity.getDataCriacao())
                 .map(LocalDateTime::toLocalDate)
                 .orElse(null))
-            .dataAtualizacao(ofNullable(enitity.getDataAtualizacao())
+            .dataAtualizacao(ofNullable(entity.getDataAtualizacao())
                 .map(LocalDateTime::toLocalDate)
                 .orElse(null))
             .imagem(isNotBlank(imagemConteudoBase64) ? imagemConteudoBase64 : null)
+            .comentarios(informacoes.getComentarios())
             .build();
     }
 }

@@ -55,6 +55,8 @@ springfox:
         description: Serviços relacionados aos usuários.
       - name: ConteudoApi
         description: Serviços relacionados aos conteúdos da plataforma.
+      - name: ComentarioApi
+        description: Serviços relacionados aos comentários da plataforma.
       - name: SeguidoresApi
         description: Serviçoes relacionados ao relacionamento entre usuários.
 
