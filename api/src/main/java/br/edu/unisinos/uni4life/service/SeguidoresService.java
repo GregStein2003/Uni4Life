@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import br.edu.unisinos.uni4life.domain.entity.UsuarioEntity;
 import br.edu.unisinos.uni4life.dto.response.UsuarioResponse;
 import br.edu.unisinos.uni4life.exception.ClientErrorException;
-import br.edu.unisinos.uni4life.mapper.SeguidorEntityMapper;
+import br.edu.unisinos.uni4life.mapper.entity.SeguidorEntityMapper;
 import br.edu.unisinos.uni4life.mapper.UsuarioResponseMapper;
 import br.edu.unisinos.uni4life.repository.SeguidorRepository;
 import br.edu.unisinos.uni4life.repository.UsuarioRepository;

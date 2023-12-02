@@ -10,6 +10,8 @@ public enum Message {
 
     //C
     CONTEUDO_NAO_ENCONTRADO("conteudo.nao.encontrado"),
+    CONTEUDO_JA_CURTIDO("conteudo.ja.curtido"),
+    CONTEUDO_JA_FAVORITADO("conteudo.ja.favoritado"),
 
     //D
     DATA_INVALIDA("data.invalida"),

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -79,7 +80,7 @@ public class UsuarioEntity implements ImageEntity {
     @Column(name = "IMAGEM_USUARIO")
     private String imagem;
 
-    @OneToMany(mappedBy = "autor", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "autor", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<ConteudoEnitity> conteudos;
 
     @PrePersist

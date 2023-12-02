@@ -1,4 +1,4 @@
-package br.edu.unisinos.uni4life.mapper;
+package br.edu.unisinos.uni4life.mapper.entity;
 
 import static br.edu.unisinos.uni4life.domain.enumeration.usuario.Segmento.ACADEMICO;
 import static br.edu.unisinos.uni4life.util.ValueUtil.econdeString;

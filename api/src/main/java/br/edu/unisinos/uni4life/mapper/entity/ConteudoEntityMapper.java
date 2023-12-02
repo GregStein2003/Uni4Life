@@ -1,4 +1,4 @@
-package br.edu.unisinos.uni4life.mapper;
+package br.edu.unisinos.uni4life.mapper.entity;
 
 import static java.util.Objects.isNull;
 

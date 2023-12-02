@@ -19,4 +19,14 @@ public interface ConteudoRepository extends CrudRepository<ConteudoEnitity, UUID
         + "INNER JOIN SeguidorEntity S ON S.seguido = U "
         + "WHERE S.seguidor.id = :idSeguidor AND U.tipo = 'PUBLICA'")
     Page<ConteudoEnitity> findConteudoSeguido(@Param("idSeguidor") final UUID idSeguidor, final Pageable paginacao);
+
+    @Query(value = "SELECT C FROM ConteudoEnitity C "
+        + "INNER JOIN FavoritoEntity F ON F.conteudo = C "
+        + "WHERE F.usuario.id = :idUsuario")
+    Page<ConteudoEnitity> findConteudoFavoritado(@Param("idUsuario") final UUID idUsuario, final Pageable paginacao);
+
+    @Query(value = "SELECT C FROM ConteudoEnitity C "
+        + "INNER JOIN CurtidaEntity CR ON  CR.conteudo = C "
+        + "WHERE CR.usuario.id = :idUsuario")
+    Page<ConteudoEnitity> findConteudoCurtido(@Param("idUsuario") final UUID idUsuario, final Pageable paginacao);
 }

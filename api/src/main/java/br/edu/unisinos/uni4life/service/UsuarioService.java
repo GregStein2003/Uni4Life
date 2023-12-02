@@ -25,7 +25,7 @@ import br.edu.unisinos.uni4life.dto.request.AtualizaUsuarioRequest;
 import br.edu.unisinos.uni4life.dto.request.CadastraUsuarioRequest;
 import br.edu.unisinos.uni4life.dto.response.UsuarioResponse;
 import br.edu.unisinos.uni4life.exception.ClientErrorException;
-import br.edu.unisinos.uni4life.mapper.UsuarioEntityMapper;
+import br.edu.unisinos.uni4life.mapper.entity.UsuarioEntityMapper;
 import br.edu.unisinos.uni4life.mapper.UsuarioResponseMapper;
 import br.edu.unisinos.uni4life.repository.SeguidorRepository;
 import br.edu.unisinos.uni4life.repository.UsuarioRepository;

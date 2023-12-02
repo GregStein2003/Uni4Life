@@ -35,6 +35,12 @@ public final class ConteudoResponse implements Serializable {
     @ApiModelProperty(value = "Link HTTP do conteúdo")
     private final String link;
 
+    @ApiModelProperty(value = "Flag booleana indicando se conteudo foi favoritado.")
+    private Boolean favoritado;
+
+    @ApiModelProperty(value = "Flag booleana indicando se conteudo foi curtido.")
+    private Boolean curtido;
+
     @ApiModelProperty(value = "Nome do autor do conteúdo", example = "Fulano da Silva")
     private final String autor;
 
@@ -58,6 +64,8 @@ public final class ConteudoResponse implements Serializable {
             .append("descricao", descricao)
             .append("tipoConteudo", tipoConteudo)
             .append("link", link)
+            .append("favoritado", favoritado)
+            .append("curtido", curtido)
             .append("autor", autor)
             .append("dataCriacao", dataCriacao)
             .append("dataAtualizacao", dataAtualizacao)
