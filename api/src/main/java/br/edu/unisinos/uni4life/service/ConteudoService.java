@@ -12,6 +12,7 @@ import static br.edu.unisinos.uni4life.security.SecurityContextHelper.getUsuario
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+import java.util.Collections;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -203,7 +204,9 @@ public class ConteudoService {
             .imagemAutorBase64(getImagemBase64(conteudo.getAutor()))
             .isFavorito(isFavorito)
             .isCurtido(isCurtido)
-            .comentarios(conteudo.getComentarios().stream()
+            .comentarios(ofNullable(conteudo.getComentarios())
+                .orElseGet(Collections::emptyList)
+                .stream()
                 .map(comentario -> new ComentarioResponseMapper()
                     .apply(comentario, getImagemBase64(comentario.getAutor())))
                 .collect(Collectors.toList()))
