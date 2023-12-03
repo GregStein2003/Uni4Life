@@ -29,6 +29,7 @@ public class ComentarioResponseMapper {
             .dataAtualizacao(ofNullable(entity.getDataAtualizacao())
                 .map(LocalDateTime::toLocalDate)
                 .orElse(null))
+            .idAutor(entity.getAutor().getId())
             .autor(entity.getAutor().getNome())
             .imagemAutor(
                 isNotBlank(imagemAutorBase64) ? imagemAutorBase64 : null

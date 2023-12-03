@@ -33,6 +33,9 @@ public final class ComentarioResponse implements Serializable {
     @ApiModelProperty(value = "Data de atualização do comentário", example = "2023-06-21")
     private final LocalDate dataAtualizacao;
 
+    @ApiModelProperty(value = "Identificador do autor do comentário", example = "2d963fbc-c346-4133-a218-ef5e7bcc2071")
+    private final UUID idAutor;
+
     @ApiModelProperty(value = "Nome do autor do comentário", example = "Fulano da Silva")
     private final String autor;
 

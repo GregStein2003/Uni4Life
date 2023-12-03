@@ -42,6 +42,9 @@ public final class ConteudoResponse implements Serializable {
     @ApiModelProperty(value = "Flag booleana indicando se conteudo foi curtido.")
     private Boolean curtido;
 
+    @ApiModelProperty(value = "Identificador do autor do conteúdo", example = "2d963fbc-c346-4133-a218-ef5e7bcc2072")
+    private final UUID idAutor;
+
     @ApiModelProperty(value = "Nome do autor do conteúdo", example = "Fulano da Silva")
     private final String autor;
 

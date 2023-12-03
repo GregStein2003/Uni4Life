@@ -21,6 +21,7 @@ public class ConteudoResponseMapper {
         return ConteudoResponse.builder()
             .id(entity.getId())
             .descricao(entity.getDescricao())
+            .idAutor(entity.getAutor().getId())
             .autor(entity.getAutor().getNome())
             .imagemAutor(
                 isNotBlank(informacoes.getImagemAutorBase64()) ? informacoes.getImagemAutorBase64() : null
