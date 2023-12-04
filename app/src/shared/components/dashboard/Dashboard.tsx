@@ -22,8 +22,8 @@ export const Dashboard: React.FC = () => {
             ContentService.getAll().then(result => {
                 if(result instanceof Error){
                     setPosts([]);
-                    console.log(result.message)
                 }else {
+                    console.log(result)
                     setPosts(result.conteudo);
                 }
                 setIsLoading(false);
@@ -41,7 +41,7 @@ export const Dashboard: React.FC = () => {
           backgroundColor: '#262d63',
         }
 };
-
+ 
     return (
         <>
         <Button 
@@ -61,10 +61,13 @@ export const Dashboard: React.FC = () => {
                 imagemAutor={post.imagemAutor}
                 imagem={post.imagem}
                 data={post.dataCriacao}
+                favoritado={post.favoritado}
+                curtido={post.curtido}
                 link={post.link}
                 tipoConteudo={post.tipoConteudo}
                 titulo={post.titulo}
                 descricao={post.descricao}
+                comentarios={post.comentarios}
             />
         ))}
          

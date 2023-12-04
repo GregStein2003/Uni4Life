@@ -88,4 +88,38 @@ const getUser = async (): Promise<IUsuario | any> => {
     }
 };
 
-export const ProfileService = { update, getUser };
+const getUserById = async (id=null): Promise<IUsuario | any> => {
+    
+    try{
+        let query;
+
+        if(id){
+            query = `${Environment.URL_BASE}/usuarios?id=${id}`;
+        }else {
+            query = `${Environment.URL_BASE}/usuarios`;
+        }
+
+        const { data } = await api.get(query, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }); 
+
+        console.log(data)
+
+        if(data) {
+            return data;
+        }
+
+        return new Error("Erro ao consultar usuario.");
+
+    }catch(error){
+        return {
+            "error": true,
+            "data": error.response.data.message,
+            "field": error.response.data.field
+        }
+    }
+};
+
+export const ProfileService = { update, getUser, getUserById };

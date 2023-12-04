@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Home, Profile } from "../shared/components";
+import { Home, Profile, User } from "../shared/components";
 import { useAppDrawerContext } from "../shared/contexts";
 import { Routes, Route, Navigate } from "react-router-dom";
 
@@ -38,6 +38,7 @@ export const AppRoutes = () => {
             <Route path="/" element={<Home />}/>
             <Route path="/profile" element={<Profile />}/>
             <Route path="*" element={<Navigate to="/"/>}/>
+            <Route path="/profile/:id" element={<User></User>}/>
         </Routes>
     );
 };
