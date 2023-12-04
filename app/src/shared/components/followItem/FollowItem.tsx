@@ -54,7 +54,7 @@ const ListItem: React.FC<IFollowItemProps> = ({ id, nome, registroAcademico, seg
 
   return (
       <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ cursor: "pointer" }} rowGap={1}>
-        <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
+        <Box display="flex" alignItems="center" gap={2} flexWrap="wrap" onClick={() => navigate(`/profile/${id}`)}>
           <Avatar alt="Remy Sharp" src={avatarImage} sx={{ width: 56, height: 56 }}>{nome[0]}</Avatar>
           <Box>
             <Typography variant="h5" fontWeight="700">{abrevName}</Typography>

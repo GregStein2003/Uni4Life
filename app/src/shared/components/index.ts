@@ -1,4 +1,5 @@
 export * from "./home/Home";
+export * from "./user/User";
 export * from "./welcome/Welcome";
 export * from "./menu-lateral/MenuLateral";
 export * from "./dialogProfile/DialogProfile";

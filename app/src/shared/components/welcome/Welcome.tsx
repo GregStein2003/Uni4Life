@@ -122,7 +122,7 @@ export const Welcome: React.FC<IWelcomeProps> = ({ children }) => {
 
     if (isAuthenticated) return (
         <>{children}</>
-      );
+    );
 
     return (
         <LayoutBaseWelcome>

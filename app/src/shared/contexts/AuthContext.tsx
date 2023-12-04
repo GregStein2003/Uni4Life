@@ -28,7 +28,6 @@ interface IAuthContextData {
       }
     }, []);
   
-  
     const handleLoginAuth = useCallback(async (email: string, senha: string) => {
       const result = await AuthService.auth(email, senha);
       if (result instanceof Error) {

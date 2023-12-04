@@ -145,14 +145,18 @@ export const Register: React.FC<IWelcomeProps> = ({ formRef, handleAction, isLoa
                         >
                         {textButton}
                         </Button>
-                        <Button 
-                            variant='outlined'
-                            sx={ButtonSubmitHover}
-                            fullWidth
-                            onClick={handleClose}
-                        >
-                        Voltar
-                        </Button>
+                        
+                        {update && (
+                            <Button 
+                                variant='outlined'
+                                sx={ButtonSubmitHover}
+                                fullWidth
+                                onClick={handleClose}
+                            >
+                            Voltar
+                            </Button>
+                        )}
+
                     </Box>
                 </CardActions>
             </Box>
