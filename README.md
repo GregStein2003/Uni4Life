@@ -8,7 +8,7 @@ _   _       _   ___  _     _  __
                                           :: Node JS ::                    (v18.17.0)
 ```
 
-> Status: Concluído ✅
+> Status: Concluded ✅
 
 # Authors:
 
